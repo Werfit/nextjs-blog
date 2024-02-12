@@ -1,9 +1,11 @@
 "use client";
 
-import InputWithLabel from "@/common/components/input-with-label/input-with-label.component";
-import { loginSchema, LoginSchema } from "@/common/schemas/login.schema";
+import InputWithLabel from "@/components/input-with-label.component";
+import { loginSchema, LoginSchema } from "@/schemas/login.schema";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { joiResolver } from "@hookform/resolvers/joi";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const Login = () => {
   const {
@@ -11,12 +13,18 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginSchema>({
-    resolver: joiResolver(loginSchema),
+    resolver: zodResolver(loginSchema),
   });
+  const urlSearchParams = useSearchParams();
+  const router = useRouter();
 
-  const submitForm: SubmitHandler<LoginSchema> = (result) => {
-    console.log("wowowowowo");
-    console.log(result);
+  const submitForm: SubmitHandler<LoginSchema> = async (result) => {
+    await signIn("credentials", {
+      username: result.username,
+      password: result.password,
+      redirect: false,
+    });
+    router.push(urlSearchParams.get("from") ?? "/");
   };
 
   return (
@@ -28,12 +36,14 @@ const Login = () => {
         <InputWithLabel
           label={"Username"}
           {...register("username")}
+          placeholder="Username"
           isError={!!errors.username}
           errorMessage={errors.username?.message}
         />
         <InputWithLabel
           label={"Password"}
           type="password"
+          placeholder="Password"
           {...register("password")}
           isError={!!errors.password}
           errorMessage={errors.password?.message}
