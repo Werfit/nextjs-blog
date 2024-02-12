@@ -2,6 +2,8 @@ import { client } from "@/lib/database/supabase";
 import { comparePassword, hashPassword } from "@/lib/utils/password";
 import { Database } from "@/lib/database/database.types";
 import { convertSnakeCaseToCamelCase } from "@/lib/utils/snake-case-to-camel-case";
+import { HttpError } from "@/lib/error/http-error";
+import { HttpStatus } from "@/enums/http-status.enum";
 
 type OriginalUser = Database["public"]["Tables"]["users"]["Row"];
 
@@ -22,11 +24,11 @@ export const loginUser = async (
     .single();
 
   if (!user) {
-    throw new Error("User was not found");
+    throw new HttpError("User was not found", HttpStatus.NOT_FOUND);
   }
 
   if (!comparePassword(password, user.password)) {
-    throw new Error("User was not found");
+    throw new HttpError("User was not found", HttpStatus.NOT_FOUND);
   }
 
   const { password: _, ...foundUser } = user;
@@ -44,7 +46,10 @@ export const createUser = async (
     .single();
 
   if (targetUser) {
-    throw new Error("User with this username already exists");
+    throw new HttpError(
+      "User with this username already exists",
+      HttpStatus.FORBIDDEN,
+    );
   }
 
   const { data: user, error } = await client

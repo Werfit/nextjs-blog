@@ -20,7 +20,7 @@ export const authOptions: AuthOptions = {
     },
     session({ session, token }) {
       if (token.user) {
-        session.user = token.user;
+        session.user = token.user as User;
       }
 
       return session;
@@ -41,15 +41,12 @@ export const authOptions: AuthOptions = {
         if (!credentials) {
           return null;
         }
-        try {
-          const user = await loginUser(
-            credentials.username,
-            credentials.password,
-          );
-          return user;
-        } catch (error) {
-          return null;
-        }
+
+        const user = await loginUser(
+          credentials.username,
+          credentials.password,
+        );
+        return user;
       },
     }),
   ],

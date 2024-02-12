@@ -16,6 +16,7 @@ const SignUp = () => {
     register,
     formState: { errors },
     handleSubmit,
+    setError,
   } = useForm<RegistrationSchema>({
     resolver: zodResolver(registrationSchema),
   });
@@ -35,23 +36,23 @@ const SignUp = () => {
       });
 
       if (!response.ok) {
-        console.error("Registration process failed");
+        const { message } = await response.json();
+        setError("root", { message });
         return;
       }
 
-      await signIn("credentials", {
+      const loginResponse = await signIn("credentials", {
         username: data.username,
         password: data.password,
         redirect: false,
       });
-      router.push(urlSearchParams.get("from") ?? "/");
+
+      if (loginResponse && loginResponse.ok) {
+        router.push(urlSearchParams.get("from") ?? "/");
+      }
     } catch (error) {
       const err = error as Error;
-      // TODO: handle error
-      console.group("Registration process");
-      console.error("Registration process failed");
-      console.error(`Reason: ${err.message}`);
-      console.groupEnd();
+      setError("root", { message: err.message });
     }
   };
 
@@ -59,7 +60,6 @@ const SignUp = () => {
     <div>
       <form
         className="w-[40vw] flex flex-col gap-2 mx-auto my-5"
-        // action={registerUser}
         onSubmit={handleSubmit(submitHandler)}
         method="POST"
       >
@@ -88,6 +88,11 @@ const SignUp = () => {
         />
 
         <FormSubmitButton>Continue</FormSubmitButton>
+        {errors.root && (
+          <p className="text-sm text-center text-rose-500">
+            {errors.root.message}
+          </p>
+        )}
       </form>
     </div>
   );

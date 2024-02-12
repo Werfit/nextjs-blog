@@ -13,14 +13,10 @@ export const loginSchema = z.object({
     .min(USERNAME_MIN_LENGTH, {
       message: `Username should be at least ${USERNAME_MIN_LENGTH} characters long`,
     }),
-  password: z
-    .string({
-      required_error: "Password is required",
-      invalid_type_error: "Password is incorrect",
-    })
-    .min(PASSWORD_MIN_LENGTH, {
-      message: `Password should be at least ${PASSWORD_MIN_LENGTH} characters long`,
-    }),
+  password: z.string({
+    required_error: "Password is required",
+    invalid_type_error: "Password is incorrect",
+  }),
 });
 
 export type LoginSchema = z.infer<typeof loginSchema>;

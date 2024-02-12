@@ -6,12 +6,14 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
+import FormSubmitButton from "@/components/form-submit-button.component";
 
 const Login = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
   });
@@ -19,12 +21,24 @@ const Login = () => {
   const router = useRouter();
 
   const submitForm: SubmitHandler<LoginSchema> = async (result) => {
-    await signIn("credentials", {
+    const response = await signIn("credentials", {
       username: result.username,
       password: result.password,
       redirect: false,
     });
-    router.push(urlSearchParams.get("from") ?? "/");
+
+    if (!response) {
+      setError("root", { message: "Something went wrong" });
+      return;
+    }
+
+    if (response.ok) {
+      router.push(urlSearchParams.get("from") ?? "/");
+    }
+
+    if (!response.ok) {
+      setError("root", { message: response.error ?? "" });
+    }
   };
 
   return (
@@ -48,12 +62,14 @@ const Login = () => {
           isError={!!errors.password}
           errorMessage={errors.password?.message}
         />
-        <button
-          type="submit"
-          className="py-2 px-4 text-gray-800 border-2 border-gray-800 rounded-md hover:bg-gray-800 hover:text-white transition w-full"
-        >
-          Login
-        </button>
+
+        <FormSubmitButton>Login</FormSubmitButton>
+
+        {errors.root && (
+          <p className="text-sm text-center text-rose-500">
+            {errors.root.message}
+          </p>
+        )}
       </form>
     </div>
   );
