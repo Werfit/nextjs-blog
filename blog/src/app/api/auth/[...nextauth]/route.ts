@@ -3,7 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { loginUser } from "@/lib/database/user";
 import { User } from "@/types/user.type";
 
-export const authOptions: AuthOptions = {
+const authOptions: AuthOptions = {
   callbacks: {
     jwt({ token, user }) {
       // user that comes from the authorization is of custom type User rather User | AdapterUser from the next-auth
