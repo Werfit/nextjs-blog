@@ -23,6 +23,7 @@ const Layout = async ({
       <body className={inter.className}>
         <SessionProvider session={session}>{children}</SessionProvider>
         <div id="loader"></div>
+        <div id="modal"></div>
       </body>
     </html>
   );

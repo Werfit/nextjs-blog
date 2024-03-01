@@ -2,7 +2,7 @@ import { createUser } from "@/lib/database/user";
 import { HttpStatus } from "@/enums/http-status.enum";
 import { HttpError } from "@/lib/error/http-error";
 
-export const POST = async (req: Request) => {
+export const POST = async (req: Request): Promise<Response> => {
   const data = await req.json();
 
   try {

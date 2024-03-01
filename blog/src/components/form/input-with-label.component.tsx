@@ -21,7 +21,7 @@ const InputWithLabel = forwardRef<HTMLInputElement, InputWithLabelProps>(
   ({ label, className, isError, errorMessage, ...props }, ref) => {
     return (
       <label
-        className={`flex flex-col border-2 py-1 px-3 rounded focus-within:shadow-md focus-within:shadow-gray-200/50 transition ${
+        className={`flex flex-col border-2 border-gray-200 py-1 px-3 rounded focus-within:shadow-md focus-within:shadow-gray-200/50 transition ${
           isError ? BORDER_COLOR.ERROR : BORDER_COLOR.DEFAULT
         } ${isError ? SHADOW_COLOR.ERROR : SHADOW_COLOR.DEFAULT} ${className}`}
       >

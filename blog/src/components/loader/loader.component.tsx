@@ -1,4 +1,4 @@
-import Portal from "@/components/portal.component";
+import Portal from "@/components/portal/portal.component";
 
 const Loader = () => {
   return (

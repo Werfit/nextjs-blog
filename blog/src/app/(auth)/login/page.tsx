@@ -1,12 +1,12 @@
 "use client";
 
-import InputWithLabel from "@/components/input-with-label.component";
+import InputWithLabel from "@/components/form/input-with-label.component";
 import { loginSchema, LoginSchema } from "@/schemas/login.schema";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import FormSubmitButton from "@/components/form-submit-button.component";
+import FormSubmitButton from "@/components/form/form-submit-button.component";
 
 const Login = () => {
   const {
