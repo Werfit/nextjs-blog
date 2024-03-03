@@ -35,4 +35,4 @@ const AuthButtons = () => {
   );
 };
 
-export default AuthButtons;
+export { AuthButtons };

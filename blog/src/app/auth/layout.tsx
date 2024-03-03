@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getSession } from "next-auth/react";
-import Loader from "@/components/loader/loader.component";
+import { Loader } from "@/components/loader/loader.component";
 
 const AuthLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   const router = useRouter();

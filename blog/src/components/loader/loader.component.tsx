@@ -1,4 +1,4 @@
-import Portal from "@/components/portal/portal.component";
+import { Portal } from "@/components/portal/portal.component";
 
 const Loader = () => {
   return (
@@ -8,4 +8,4 @@ const Loader = () => {
   );
 };
 
-export default Loader;
+export { Loader };

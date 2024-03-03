@@ -37,4 +37,4 @@ const InputWithLabel = forwardRef<HTMLInputElement, InputWithLabelProps>(
 
 InputWithLabel.displayName = "InputWithLabel";
 
-export default InputWithLabel;
+export { InputWithLabel };

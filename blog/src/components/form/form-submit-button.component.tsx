@@ -16,4 +16,4 @@ const FormSubmitButton: React.FC<FormSubmitButtonProps> = (props) => {
   );
 };
 
-export default FormSubmitButton;
+export { FormSubmitButton };

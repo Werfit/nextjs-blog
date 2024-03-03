@@ -111,4 +111,4 @@ const Quill: React.FC<ReactQuillProps> = (props) => {
   );
 };
 
-export default Quill;
+export { Quill };

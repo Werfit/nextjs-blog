@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import Portal from "@/components/portal/portal.component";
-import InputWithLabel from "@/components/form/input-with-label.component";
-import Quill from "@/components/quill/quill.component";
-import FormSubmitButton from "@/components/form/form-submit-button.component";
+import { Portal } from "@/components/portal/portal.component";
+import { InputWithLabel } from "@/components/form/input-with-label.component";
+import { Quill } from "@/components/quill/quill.component";
+import { FormSubmitButton } from "@/components/form/form-submit-button.component";
 
 const CreateArticleModal = () => {
   const [value, setValue] = useState("");
@@ -25,7 +25,7 @@ const CreateArticleModal = () => {
               action=""
               className="relative flex flex-col gap-2 overflow-y-scroll"
             >
-              <InputWithLabel label="Title" isError={false} />
+              <InputWithLabel isError={false} />
 
               <Quill value={value} onChange={setValue} />
               <FormSubmitButton>Create</FormSubmitButton>
@@ -37,4 +37,4 @@ const CreateArticleModal = () => {
   );
 };
 
-export default CreateArticleModal;
+export { CreateArticleModal };

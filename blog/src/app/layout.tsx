@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Asap } from "next/font/google";
-import SessionProvider from "@/components/auth/session-provider.component";
+import { SessionProvider } from "@/components/auth/session-provider.component";
 import { getServerSession } from "next-auth";
 
 import "@/assets/styles/globals.css";
@@ -30,6 +30,7 @@ const Layout = async ({
         <SessionProvider session={session}>{children}</SessionProvider>
         <div id="loader"></div>
         <div id="modal"></div>
+        <div id="favorites"></div>
       </body>
     </html>
   );

@@ -25,4 +25,4 @@ const Portal: React.FC<PortalProps> = ({ children, targetId }) => {
   return element && createPortal(children, element);
 };
 
-export default Portal;
+export { Portal };

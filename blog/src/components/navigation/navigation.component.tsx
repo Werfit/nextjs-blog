@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { Arvo } from "next/font/google";
-import AuthButtons from "@/components/navigation/auth-buttons.component";
+import { AuthButtons } from "@/components/navigation/auth-buttons.component";
 import Logo from "@/assets/images/logo.svg";
 import Link from "next/link";
-import { Icon } from "@/components/icon/icon.component";
 import { Search } from "@/components/search/search.component";
+import { FavoritesIcon } from "@/components/favorites/favorites-icon.component";
 
 const caveat = Arvo({
   weight: "400",
@@ -32,9 +32,7 @@ const Navigation = async () => {
 
       <div className="flex justify-center items-stretch gap-2">
         <Search />
-        <button className="bg-lightGray-200 rounded-md text-black px-2 transition hover:bg-lightGray-100">
-          <Icon name="bookmark" />
-        </button>
+        <FavoritesIcon />
       </div>
 
       <div className="flex gap-3 items-center">
@@ -44,4 +42,4 @@ const Navigation = async () => {
   );
 };
 
-export default Navigation;
+export { Navigation };
