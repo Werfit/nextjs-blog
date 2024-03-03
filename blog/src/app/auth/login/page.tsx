@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import FormSubmitButton from "@/components/form/form-submit-button.component";
+import Link from "next/link";
 
 const Login = () => {
   const {
@@ -42,20 +43,18 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <>
       <form
-        className="w-[40vw] flex flex-col gap-2 mx-auto my-5"
+        className="w-[40vw] flex flex-col gap-2 mx-auto mt-5 mb-2"
         onSubmit={handleSubmit(submitForm)}
       >
         <InputWithLabel
-          label={"Username"}
           {...register("username")}
           placeholder="Username"
           isError={!!errors.username}
           errorMessage={errors.username?.message}
         />
         <InputWithLabel
-          label={"Password"}
           type="password"
           placeholder="Password"
           {...register("password")}
@@ -71,7 +70,15 @@ const Login = () => {
           </p>
         )}
       </form>
-    </div>
+
+      <div className="text-sm text-center text-gray-500">
+        Do not have an account yet?{" "}
+        <Link href="/auth/signup" className="text-primary-500">
+          Sign up
+        </Link>{" "}
+        here
+      </div>
+    </>
   );
 };
 

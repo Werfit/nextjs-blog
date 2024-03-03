@@ -1,10 +1,16 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "@/styles/globals.css";
+import { Asap } from "next/font/google";
 import SessionProvider from "@/components/auth/session-provider.component";
 import { getServerSession } from "next-auth";
 
-const inter = Inter({ subsets: ["latin"] });
+import "@/assets/styles/globals.css";
+import "@/assets/styles/icons.css";
+
+const asap = Asap({
+  // weight: "400",
+  subsets: ["latin"],
+  variable: "--font-asap",
+});
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -20,7 +26,7 @@ const Layout = async ({
 
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={asap.className}>
         <SessionProvider session={session}>{children}</SessionProvider>
         <div id="loader"></div>
         <div id="modal"></div>

@@ -11,9 +11,9 @@ const CreateArticleModal = () => {
 
   return (
     <Portal targetId="modal">
-      <div className="fixed bg-gray-950/10 h-screen w-screen top-0 left-0 flex align-center justify-center">
+      <div className="fixed bg-gray-950/10 h-screen w-screen top-0 left-0 flex items-center justify-center">
         <div className="container bg-white shadow-lg shadow-gray-500/20 rounded-md my-20 px-10 py-5 flex flex-col">
-          <header className="flex align-center justify-between">
+          <header className="flex items-center justify-between">
             <h3 className="text-gray-600 font-bold tracking-widest">
               Create article
             </h3>

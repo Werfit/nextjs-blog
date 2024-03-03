@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@hookform/resolvers": "3.3.4",
+    "@react-spring/core": "9.7.3",
+    "@react-spring/web": "9.7.3",
     "@supabase/supabase-js": "2.39.3",
     "@vercel/blob": "0.22.0",
     "bcryptjs": "2.4.3",
@@ -23,10 +25,12 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "2.4.6",
+    "@types/color": "3.0.6",
     "@types/node": "20.11.16",
     "@types/react": "18.2.55",
     "@types/react-dom": "18.2.19",
     "autoprefixer": "10.4.17",
+    "color": "4.2.3",
     "eslint": "8.56.0",
     "eslint-config-next": "14.1.0",
     "postcss": "8.4.35",

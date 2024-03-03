@@ -21,7 +21,20 @@ const AuthLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
     });
   }, [router]);
 
-  return isLoading ? <Loader /> : children;
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  return (
+    <div className="flex w-screen h-screen items-center justify-center">
+      <div>
+        <h1 className="text-center text-2xl font-bold tracking-widest text-black-700">
+          Welcome to Werfit Blog!
+        </h1>
+        {children}
+      </div>
+    </div>
+  );
 };
 
 export default AuthLayout;

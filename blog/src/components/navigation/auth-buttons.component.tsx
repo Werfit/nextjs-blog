@@ -26,16 +26,10 @@ const AuthButtons = () => {
   return (
     <>
       <Link
-        href="/login"
-        className="block rounded px-4 py-2 border border-emerald-500 text-emerald-500 transition hover:bg-emerald-500 hover:text-white"
+        href="/auth"
+        className="px-6 py-2 bg-primary-500 text-white hover:bg-primary-400 font-medium tracking-wider transition rounded-md"
       >
-        Login
-      </Link>
-      <Link
-        href="/signup"
-        className="text-rose-500 transition hover:text-rose-700"
-      >
-        Sign up
+        Sign In
       </Link>
     </>
   );

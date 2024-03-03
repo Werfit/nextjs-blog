@@ -10,6 +10,7 @@ import FormSubmitButton from "@/components/form/form-submit-button.component";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 const SignUp = () => {
   const {
@@ -57,21 +58,19 @@ const SignUp = () => {
   };
 
   return (
-    <div>
+    <>
       <form
-        className="w-[40vw] flex flex-col gap-2 mx-auto my-5"
+        className="w-[40vw] flex flex-col gap-2 mx-auto mt-5 mb-2"
         onSubmit={handleSubmit(submitHandler)}
         method="POST"
       >
         <InputWithLabel
-          label={"Username"}
           placeholder="Username"
           {...register("username")}
           isError={!!errors.username}
           errorMessage={errors.username?.message}
         />
         <InputWithLabel
-          label={"Password"}
           type="password"
           placeholder="Password"
           {...register("password")}
@@ -79,7 +78,6 @@ const SignUp = () => {
           errorMessage={errors.password?.message}
         />
         <InputWithLabel
-          label={"Confirm password"}
           placeholder="Re-enter the password above"
           type="password"
           {...register("confirmPassword")}
@@ -94,7 +92,15 @@ const SignUp = () => {
           </p>
         )}
       </form>
-    </div>
+
+      <div className="text-sm text-center text-gray-500">
+        Already have an account?{" "}
+        <Link href="/auth/login" className="text-primary-500">
+          Log in
+        </Link>{" "}
+        here
+      </div>
+    </>
   );
 };
 
