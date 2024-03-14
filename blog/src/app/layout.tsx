@@ -7,9 +7,9 @@ import "@/assets/styles/globals.css";
 import "@/assets/styles/icons.css";
 
 const asap = Asap({
-  // weight: "400",
   subsets: ["latin"],
   variable: "--font-asap",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -30,7 +30,7 @@ const Layout = async ({
         <SessionProvider session={session}>{children}</SessionProvider>
         <div id="loader"></div>
         <div id="modal"></div>
-        <div id="favorites"></div>
+        <div id="overlays"></div>
       </body>
     </html>
   );

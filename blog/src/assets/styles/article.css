@@ -1,0 +1,55 @@
+.article {
+  @apply min-h-72 outline-none leading-6;
+  white-space: break-spaces;
+  word-wrap: break-word;
+}
+
+.article p {
+  @apply my-2;
+}
+
+.article p:empty::after {
+  content: "\00A0";
+}
+
+.article ul {
+  @apply ml-10;
+  list-style: disc;
+}
+
+.article ol {
+  @apply ml-10;
+  list-style: decimal;
+}
+
+.article h1 {
+  @apply text-2xl;
+}
+
+.article h2 {
+  @apply text-xl;
+}
+
+.article img {
+  @apply mx-auto rounded-md shadow-md shadow-black-700/10;
+}
+
+.article blockquote::before {
+  @apply absolute top-0 h-full w-1 bg-gray-200 rounded-sm -left-1 -translate-x-full;
+  content: "";
+}
+
+.article blockquote {
+  @apply relative ml-6 text-gray-600;
+}
+
+.article p code {
+  @apply text-pink-500 bg-gray-100 px-2 font-mono;
+  font-family: var(--font-source-code-pro);
+}
+
+.article pre {
+  @apply bg-gray-100 px-4 py-2 font-mono text-sm;
+  font-family: var(--font-source-code-pro);
+  white-space: pre-wrap;
+}

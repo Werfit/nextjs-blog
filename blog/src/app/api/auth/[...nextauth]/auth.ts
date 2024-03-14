@@ -1,11 +1,11 @@
 import { client } from "@/lib/database/supabase";
 import { comparePassword, hashPassword } from "@/lib/utils/password";
-import { Database } from "@/lib/database/database.types";
+import { Tables } from "@/lib/database/database.types";
 import { convertSnakeCaseToCamelCase } from "@/lib/utils/snake-case-to-camel-case";
 import { HttpError } from "@/lib/error/http-error";
 import { HttpStatus } from "@/enums/http-status.enum";
 
-type OriginalUser = Database["public"]["Tables"]["users"]["Row"];
+type OriginalUser = Tables<"users">;
 
 type User<T extends OriginalUser> = {
   [k in keyof T]: T[k];
@@ -15,7 +15,7 @@ type UserWithoutPassword = Omit<User<OriginalUser>, "password">;
 
 export const loginUser = async (
   username: string,
-  password: string,
+  password: string
 ): Promise<UserWithoutPassword> => {
   const { data: user } = await client
     .from("users")
@@ -24,11 +24,11 @@ export const loginUser = async (
     .single();
 
   if (!user) {
-    throw new HttpError("User was not found", HttpStatus.NOT_FOUND);
+    throw new HttpError("Incorrect credentials", HttpStatus.NOT_FOUND);
   }
 
   if (!comparePassword(password, user.password)) {
-    throw new HttpError("User was not found", HttpStatus.NOT_FOUND);
+    throw new HttpError("Incorrect credentials", HttpStatus.NOT_FOUND);
   }
 
   const { password: _, ...foundUser } = user;
@@ -37,7 +37,7 @@ export const loginUser = async (
 
 export const createUser = async (
   username: string,
-  password: string,
+  password: string
 ): Promise<UserWithoutPassword> => {
   const { data: targetUser } = await client
     .from("users")
@@ -48,7 +48,7 @@ export const createUser = async (
   if (targetUser) {
     throw new HttpError(
       "User with this username already exists",
-      HttpStatus.FORBIDDEN,
+      HttpStatus.FORBIDDEN
     );
   }
 

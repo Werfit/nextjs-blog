@@ -1,4 +1,4 @@
-import { createUser } from "@/lib/database/user";
+import { createUser } from "../[...nextauth]/auth";
 import { HttpStatus } from "@/enums/http-status.enum";
 import { HttpError } from "@/lib/error/http-error";
 
@@ -12,14 +12,14 @@ export const POST = async (req: Request): Promise<Response> => {
     if (error instanceof HttpError) {
       return Response.json(
         { message: error.message },
-        { status: error.status },
+        { status: error.status }
       );
     }
 
     const err = error as Error;
     return Response.json(
       { message: err.message },
-      { status: HttpStatus.INTERNAL },
+      { status: HttpStatus.INTERNAL }
     );
   }
 };

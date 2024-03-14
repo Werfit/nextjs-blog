@@ -25,7 +25,7 @@ export const request = async <T>(
   const { body, headers } = formBodyAndHeaders(data);
 
   const response = await fetch(url, {
-    method: "PUT",
+    method,
     body,
     headers,
   });

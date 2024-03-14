@@ -1,18 +1,27 @@
 import { ButtonHTMLAttributes } from "react";
-import { useFormStatus } from "react-dom";
 
-type FormSubmitButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
+type FormSubmitButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+  isLoading?: boolean;
+};
 
-const FormSubmitButton: React.FC<FormSubmitButtonProps> = (props) => {
-  const { pending } = useFormStatus();
+const FormSubmitButton: React.FC<FormSubmitButtonProps> = ({
+  isLoading,
+  children,
+  ...props
+}) => {
+  const pending = typeof isLoading !== "undefined" && isLoading;
 
   return (
     <button
       {...props}
-      className="bg-primary-500 text-white font-medium tracking-wider transition rounded-md py-2 text-lg hover:bg-primary-400"
+      className={`text-white font-medium tracking-wider transition rounded-md py-2 text-lg ${
+        pending ? "bg-primary-400/50" : "bg-primary-500 hover:bg-primary-400"
+      }`}
       disabled={pending}
       aria-disabled={pending}
-    />
+    >
+      {pending ? "Loading..." : children}
+    </button>
   );
 };
 

@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.grid-container {
+  display: grid;
+  grid-template-columns: [full-screen-start] 1fr [container-start] 4fr [container-end] 1fr [full-screen-end];
+}
+
+.grid-container > * {
+  grid-column-start: container-start;
+}

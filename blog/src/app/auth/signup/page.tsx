@@ -11,6 +11,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { request } from "@/services/http.service";
+import { useState } from "react";
 
 const SignUp = () => {
   const {
@@ -21,26 +23,16 @@ const SignUp = () => {
   } = useForm<RegistrationSchema>({
     resolver: zodResolver(registrationSchema),
   });
+  const [isLoading, setIsLoading] = useState(false);
   const urlSearchParams = useSearchParams();
   const router = useRouter();
 
   const submitHandler: SubmitHandler<RegistrationSchema> = async (data) => {
+    setIsLoading(true);
     const requestBody = { username: data.username, password: data.password };
 
     try {
-      const response = await fetch("/api/auth/signup", {
-        method: "POST",
-        body: JSON.stringify(requestBody),
-        headers: {
-          "Content-type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        const { message } = await response.json();
-        setError("root", { message });
-        return;
-      }
+      await request("/api/auth/signup", "POST", requestBody);
 
       const loginResponse = await signIn("credentials", {
         username: data.username,
@@ -54,6 +46,8 @@ const SignUp = () => {
     } catch (error) {
       const err = error as Error;
       setError("root", { message: err.message });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -85,7 +79,7 @@ const SignUp = () => {
           errorMessage={errors.confirmPassword?.message}
         />
 
-        <FormSubmitButton>Continue</FormSubmitButton>
+        <FormSubmitButton isLoading={isLoading}>Continue</FormSubmitButton>
         {errors.root && (
           <p className="text-sm text-center text-rose-500">
             {errors.root.message}

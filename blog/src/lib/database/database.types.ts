@@ -34,6 +34,47 @@ export interface Database {
   }
   public: {
     Tables: {
+      articles: {
+        Row: {
+          content: string
+          content_html: string
+          created_at: string
+          featured_image_url: string
+          id: string
+          owner: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          content: string
+          content_html: string
+          created_at?: string
+          featured_image_url: string
+          id?: string
+          owner: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          content?: string
+          content_html?: string
+          created_at?: string
+          featured_image_url?: string
+          id?: string
+          owner?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "articles_owner_fkey"
+            columns: ["owner"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       users: {
         Row: {
           created_at: string

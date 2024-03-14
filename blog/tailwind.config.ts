@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import { fontFamily } from "tailwindcss/defaultTheme";
 import plugin from "tailwindcss/plugin";
 import Color from "color";
 
@@ -36,6 +37,11 @@ const config: Config = {
         200: colors.lightGray,
       },
     }),
+    extend: {
+      fontFamily: {
+        sans: ["var(--font-asap)", ...fontFamily.sans],
+      },
+    },
   },
   plugins: [
     plugin(({ addBase, theme }) => {

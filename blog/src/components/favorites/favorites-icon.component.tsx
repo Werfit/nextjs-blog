@@ -26,7 +26,7 @@ const FavoritesIcon = () => {
       </button>
 
       {transitions((style) => (
-        <Portal targetId="favorites">
+        <Portal targetId="overlays">
           <Favorites style={style} onClose={() => setShowFavorites(false)} />
         </Portal>
       ))}
