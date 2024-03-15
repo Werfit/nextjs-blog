@@ -16,7 +16,7 @@ const sourceCodePro = Source_Code_Pro({
 const Article: React.FC<ArticleProps> = async ({ params }) => {
   const { data } = await getArticleById(params.id);
 
-  return (
+  return data ? (
     <article
       className={`!col-start-[full-screen] col-end-[full-screen] bg-white grid-container`}
     >
@@ -47,6 +47,8 @@ const Article: React.FC<ArticleProps> = async ({ params }) => {
         </span>
       </footer>
     </article>
+  ) : (
+    <p>Not found!</p>
   );
 };
 

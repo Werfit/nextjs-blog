@@ -5,6 +5,7 @@ import { auth } from "../user/helpers/auth";
 import { sanitizeHtml } from "@/lib/sanitizer/sanitize-html";
 import { createArticleSchema } from "@/schemas/article.schema";
 import { Tables } from "@/lib/database/database.types";
+import { logger } from "@/lib/logger/logger";
 
 export type ArticleResponse = Omit<
   Tables<"articles">,
@@ -34,7 +35,8 @@ export const getArticles = async (
     .returns<ArticleResponse[]>();
 
   if (error || typeof count !== "number") {
-    throw new Error("Failed to load articles");
+    logger.error(error?.message ?? "Count is not a number", error);
+    return { data: [], count: 0 };
   }
 
   return { data: data, count };
@@ -42,7 +44,7 @@ export const getArticles = async (
 
 export const getArticleById = async (
   id: Tables<"articles">["id"]
-): Promise<{ data: ArticleResponse }> => {
+): Promise<{ data: ArticleResponse | null }> => {
   try {
     const { error, data } = await client
       .from("articles")
@@ -71,7 +73,9 @@ export const getArticleById = async (
     return { data };
   } catch (err) {
     const error = err as Error;
-    throw new Error(error.message);
+    logger.error(error.message, error);
+
+    return { data: null };
   }
 };
 
@@ -109,7 +113,8 @@ export const createArticle = async (data: FormData): Promise<void> => {
     if (result.error) {
       throw new Error(result.error.message);
     }
-  } catch (error) {
-    throw new Error("Failed to create an article");
+  } catch (err) {
+    const error = err as Error;
+    logger.error(error.message, error);
   }
 };
