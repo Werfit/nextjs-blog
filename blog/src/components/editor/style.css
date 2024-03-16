@@ -33,7 +33,7 @@
 }
 
 .tiptap blockquote::before {
-  @apply absolute top-0 h-full w-1 bg-gray-200 rounded-sm -left-1 -translate-x-full;
+  @apply absolute -left-1 top-0 h-full w-1 -translate-x-full rounded-sm bg-gray-200;
   content: "";
 }
 
@@ -42,7 +42,7 @@
 }
 
 .tiptap p code {
-  @apply text-pink-500 bg-gray-100 px-2 font-mono;
+  @apply bg-gray-100 px-2 font-mono text-pink-500;
   font-family: var(--font-source-code-pro);
 }
 

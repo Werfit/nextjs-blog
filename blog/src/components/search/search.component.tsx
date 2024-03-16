@@ -3,18 +3,24 @@ import { useState } from "react";
 import { useSpring, animated } from "@react-spring/web";
 import { Icon } from "@/components/icon/icon.component";
 
-const Search = () => {
+type SearchProps = {
+  className?: string;
+  from: string;
+  to: string;
+};
+
+const Search: React.FC<SearchProps> = ({ className, to, from }) => {
   const [isSearchActive, setIsSearchActive] = useState(false);
   const { width, opacity } = useSpring({
-    width: isSearchActive ? "150px" : "0px",
+    width: isSearchActive ? to : from,
     opacity: isSearchActive ? 1 : 0,
   });
 
   return (
     <button
-      className={`bg-lightGray-200 rounded-md px-2 transition flex gap-2 ${
+      className={`flex gap-2 rounded-md bg-lightGray-200 px-2 transition ${
         !isSearchActive ? "hover:bg-lightGray-100" : ""
-      }`}
+      } ${className ?? ""}`}
       onClick={() => {
         // when search bar is shown, shouldn't trigger opening again
         if (!isSearchActive) {
@@ -25,7 +31,7 @@ const Search = () => {
       <Icon name="search" />
 
       <animated.div
-        className="flex items-center justify-end box-border"
+        className="box-border flex w-full items-center justify-end"
         style={{
           width,
           opacity,
@@ -34,7 +40,7 @@ const Search = () => {
       >
         <input
           type="text"
-          className="py-2 bg-transparent outline-none text-sm w-full"
+          className="w-full bg-transparent py-2 text-sm outline-none"
           spellCheck="false"
         ></input>
         <Icon

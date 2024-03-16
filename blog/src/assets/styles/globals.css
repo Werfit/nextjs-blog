@@ -2,11 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
-.grid-container {
-  display: grid;
-  grid-template-columns: [full-screen-start] 1fr [container-start] 4fr [container-end] 1fr [full-screen-end];
-}
+@layer utilities {
+  .grid-container {
+    display: grid;
+    grid-template-columns: [full-screen-start] 1fr [container-start] 10fr [container-end] 1fr [full-screen-end];
+  }
 
-.grid-container > * {
-  grid-column-start: container-start;
+  .grid-container > * {
+    grid-column-start: container-start;
+  }
+
+  @screen sm {
+    .grid-container {
+      grid-template-columns:
+        [full-screen-start] 1fr [container-start] 4fr
+        [container-end] 1fr [full-screen-end];
+    }
+  }
+
+  @screen lg {
+    .grid-container {
+      grid-template-columns:
+        [full-screen-start] 1fr [container-start] 2fr
+        [container-end] 1fr [full-screen-end];
+    }
+  }
 }

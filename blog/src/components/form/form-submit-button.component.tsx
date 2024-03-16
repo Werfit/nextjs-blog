@@ -14,7 +14,7 @@ const FormSubmitButton: React.FC<FormSubmitButtonProps> = ({
   return (
     <button
       {...props}
-      className={`text-white font-medium tracking-wider transition rounded-md py-2 text-lg ${
+      className={`rounded-md py-2 text-lg font-medium tracking-wider text-white transition ${
         pending ? "bg-primary-400/50" : "bg-primary-500 hover:bg-primary-400"
       }`}
       disabled={pending}

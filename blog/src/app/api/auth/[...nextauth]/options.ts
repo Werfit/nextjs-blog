@@ -45,7 +45,7 @@ export const authOptions: AuthOptions = {
 
         const user = await loginUser(
           credentials.username,
-          credentials.password
+          credentials.password,
         );
         return user;
       },

@@ -5,7 +5,7 @@ const CharactersCounter = () => {
   const { editor } = useCurrentEditor();
 
   return (
-    <p className="text-sm text-right text-gray-500">
+    <p className="text-right text-sm text-gray-500">
       {editor?.getText()?.length ?? 0} characters
     </p>
   );

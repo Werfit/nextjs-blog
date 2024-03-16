@@ -64,7 +64,7 @@ const Editor: React.FC<EditorProps> = ({ placeholder, onUpdate }) => {
         }}
         slotAfter={<CharactersCounter />}
       >
-        <Toolbar className="fixed mx-auto bg-white shadow-md shadow-black-700/10 bottom-5 rounded-md left-1/2 -translate-x-1/2" />
+        <Toolbar className="fixed bottom-5 left-1/2 mx-auto -translate-x-1/2 rounded-md bg-white shadow-md shadow-black-700/10" />
       </EditorProvider>
     </div>
   );

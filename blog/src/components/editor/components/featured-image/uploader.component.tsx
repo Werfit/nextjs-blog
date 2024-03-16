@@ -18,7 +18,7 @@ const FeaturedImageUploader: React.FC<FeaturedImageUploaderProps> = ({
   onChange,
 }) => {
   const [loadingStatus, setLoadingStatus] = useState(
-    value ? LoadingStatus.LOADED : LoadingStatus.NONE
+    value ? LoadingStatus.LOADED : LoadingStatus.NONE,
   );
 
   // TODO: Add file deletion on absence of submit
@@ -33,7 +33,7 @@ const FeaturedImageUploader: React.FC<FeaturedImageUploaderProps> = ({
 
     if (value) {
       deleteImage(value).catch(() =>
-        console.log("Failed to delete previous featured image")
+        console.log("Failed to delete previous featured image"),
       );
     }
 
@@ -55,7 +55,7 @@ const FeaturedImageUploader: React.FC<FeaturedImageUploaderProps> = ({
   };
 
   return (
-    <label className="bg-gray-100 rounded-md w-full h-64 items-center justify-center text-lg font-bold text-gray-500 cursor-pointer transition flex flex-col overflow-hidden">
+    <label className="flex h-64 w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-md bg-gray-100 text-lg font-bold text-gray-500 transition">
       <input
         type="file"
         className="hidden"
@@ -63,10 +63,7 @@ const FeaturedImageUploader: React.FC<FeaturedImageUploaderProps> = ({
         accept=".jpg,.png"
       />
 
-      <FeaturedImageDisplay
-        status={loadingStatus}
-        featuredImageSrc={value}
-      />
+      <FeaturedImageDisplay status={loadingStatus} featuredImageSrc={value} />
     </label>
   );
 };

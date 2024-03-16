@@ -48,7 +48,7 @@ const DropdownIconButton: React.FC<DropdownIconButtonProps> = ({
   };
 
   const toggleDropdown = (
-    event: MouseEvent<HTMLDivElement | HTMLButtonElement>
+    event: MouseEvent<HTMLDivElement | HTMLButtonElement>,
   ) => {
     if (isVisible) {
       hideDropdown(event as MouseEvent<HTMLButtonElement>);
@@ -68,14 +68,14 @@ const DropdownIconButton: React.FC<DropdownIconButtonProps> = ({
       {transitions((style) => (
         <>
           <animated.div
-            className="absolute bg-white rounded-md overflow-hidden shadow-md shadow-black-700/10 left-1/2 -translate-x-1/2 z-10 min-w-24 -translate-y-full -top-1"
+            className="absolute -top-1 left-1/2 z-10 min-w-24 -translate-x-1/2 -translate-y-full overflow-hidden rounded-md bg-white shadow-md shadow-black-700/10"
             style={style}
           >
             {actions.map((action, index) => (
               <button
                 key={index}
                 type="button"
-                className="py-2 px-4 hover:bg-gray-100 transition w-full"
+                className="w-full px-4 py-2 transition hover:bg-gray-100"
                 onClick={(event) => {
                   onClick(action.level);
                   hideDropdown(event);

@@ -75,6 +75,42 @@ export interface Database {
           }
         ]
       }
+      favorites: {
+        Row: {
+          article: string
+          created_at: string
+          id: string
+          user: string
+        }
+        Insert: {
+          article: string
+          created_at?: string
+          id?: string
+          user: string
+        }
+        Update: {
+          article?: string
+          created_at?: string
+          id?: string
+          user?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "favorites_article_fkey"
+            columns: ["article"]
+            isOneToOne: false
+            referencedRelation: "articles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "favorites_user_fkey"
+            columns: ["user"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       users: {
         Row: {
           created_at: string

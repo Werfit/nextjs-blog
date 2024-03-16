@@ -15,12 +15,12 @@ const Article: React.FC<ArticleProps> = ({ article }) => {
 
   return (
     <article
-      className="bg-white rounded-md shadow-md shadow-black-700/10 hover:bg-gray-50 transition cursor-pointer overflow-clip"
+      className="cursor-pointer overflow-clip rounded-md bg-white shadow-md shadow-black-700/10 transition hover:bg-gray-50"
       onClick={() => router.push(`/article/${article.id}`)}
     >
       <header>
         <Image
-          className="w-full h-44 object-cover"
+          className="h-44 w-full object-cover"
           width={400}
           height={200}
           src={article.featured_image_url}
@@ -32,11 +32,11 @@ const Article: React.FC<ArticleProps> = ({ article }) => {
         <div className="flex items-center justify-between">
           <h2 className="text-xl">{article.title}</h2>
 
-          <p className="font-mono font-semibold text-black-700 tracking-wider">
+          <p className="font-mono font-semibold tracking-wider text-black-700">
             {article.owner.username}
           </p>
         </div>
-        <div className="flex text-sm my-2 text-gray-500 ">
+        <div className="my-2 flex text-sm text-gray-500 ">
           <p className="flex-1 text-pretty">
             {article.content.substring(0, ARTICLE_PREVIEW_LENGTH).trim()}...
           </p>

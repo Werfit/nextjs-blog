@@ -16,7 +16,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ className }) => {
   return (
     <div className={`flex items-center gap-2 ${className ?? ""}`}>
       <DropdownIcon
-        className="hover:bg-gray-100 transition rounded-md px-2"
+        className="rounded-md px-2 transition hover:bg-gray-100"
         name="title"
         actions={HeaderDropdownActions}
         onClick={(level) =>
@@ -30,7 +30,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ className }) => {
       <div className="flex items-center">
         <button
           type="button"
-          className="hover:bg-gray-100 transition rounded-md px-2"
+          className="rounded-md px-2 transition hover:bg-gray-100"
           onClick={() => editor?.chain().focus().toggleBold().run()}
           disabled={!editor?.can().chain().focus().toggleBold().run()}
         >
@@ -38,7 +38,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ className }) => {
         </button>
         <button
           type="button"
-          className="hover:bg-gray-100 transition rounded-md px-2"
+          className="rounded-md px-2 transition hover:bg-gray-100"
           onClick={() => editor?.chain().focus().toggleItalic().run()}
           disabled={!editor?.can().chain().focus().toggleItalic().run()}
         >
@@ -46,7 +46,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ className }) => {
         </button>
         <button
           type="button"
-          className="hover:bg-gray-100 transition rounded-md px-2"
+          className="rounded-md px-2 transition hover:bg-gray-100"
           onClick={() => editor?.chain().focus().toggleBlockquote().run()}
           disabled={!editor?.can().chain().focus().toggleBlockquote().run()}
         >
@@ -58,7 +58,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ className }) => {
       <div className="flex items-center">
         <button
           type="button"
-          className="hover:bg-gray-100 transition rounded-md px-2"
+          className="rounded-md px-2 transition hover:bg-gray-100"
           onClick={() => editor?.chain().focus().toggleBulletList().run()}
           disabled={!editor?.can().chain().focus().toggleBulletList().run()}
         >
@@ -66,7 +66,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ className }) => {
         </button>
         <button
           type="button"
-          className="hover:bg-gray-100 transition rounded-md px-2"
+          className="rounded-md px-2 transition hover:bg-gray-100"
           onClick={() => editor?.chain().focus().toggleOrderedList().run()}
           disabled={!editor?.can().chain().focus().toggleOrderedList().run()}
         >
@@ -75,7 +75,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ className }) => {
       </div>
       <Divider />
       <ImageLoader
-        className="hover:bg-gray-100 transition rounded-md px-2"
+        className="rounded-md px-2 transition hover:bg-gray-100"
         onLoad={(content) =>
           editor
             ?.chain()
@@ -89,7 +89,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ className }) => {
       <div className="flex items-center">
         <button
           type="button"
-          className="hover:bg-gray-100 transition rounded-md px-2"
+          className="rounded-md px-2 transition hover:bg-gray-100"
           onClick={() => editor?.chain().focus().toggleCode().run()}
           disabled={!editor?.can().chain().focus().toggleCode().run()}
         >
@@ -97,7 +97,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ className }) => {
         </button>
         <button
           type="button"
-          className="hover:bg-gray-100 transition rounded-md px-2"
+          className="rounded-md px-2 transition hover:bg-gray-100"
           onClick={() => editor?.chain().focus().toggleCodeBlock().run()}
           disabled={!editor?.can().chain().focus().toggleCodeBlock().run()}
         >

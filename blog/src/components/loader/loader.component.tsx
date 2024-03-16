@@ -3,7 +3,7 @@ import { Portal } from "@/components/portal/portal.component";
 const Loader = () => {
   return (
     <Portal targetId="loader">
-      <div className="text-center text-xl py-4">Loading...</div>
+      <div className="py-4 text-center text-xl">Loading...</div>
     </Portal>
   );
 };

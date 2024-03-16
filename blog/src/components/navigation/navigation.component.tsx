@@ -5,6 +5,9 @@ import Logo from "@/assets/images/logo.svg";
 import Link from "next/link";
 import { Search } from "@/components/search/search.component";
 import { FavoritesIcon } from "@/components/favorites/favorites-icon.component";
+import { FavoritesList } from "../favorites/favorites-list.component";
+import { ActionsIcon } from "./mobile/actions-icon";
+import { Icon } from "../icon/icon.component";
 
 const caveat = Arvo({
   weight: "400",
@@ -15,51 +18,45 @@ type NavigationProps = {
   className?: string;
 };
 
-const Navigation: React.FC<NavigationProps> = ({ className }) => {
-  return (
-    <nav
-      className={`flex justify-between items-center py-5 gap-8 flex-wrap ${
-        className ?? ""
-      }`}
-    >
-      <div className="flex items-center gap-2 flex-grow">
-        <Image
-          src={Logo}
-          alt="Logo"
-          width={20}
-        />
-        <h2 className={caveat.className}>Werfit Blog</h2>
-      </div>
-      <div className="justify-center flex gap-6 tracking-wider text-black">
-        <Link
-          href="/"
-          className="hover:text-black-500 transition"
-        >
+const Navigation: React.FC<NavigationProps> = ({ className }) => (
+  <nav
+    className={`!col-start-[container-start] col-end-[container-end] grid grid-cols-2 items-center justify-between gap-8 py-5 sm:px-0 md:!col-start-[full-screen] md:col-end-[full-screen] md:grid-cols-7 lg:grid-cols-9 ${
+      className ?? ""
+    }`}
+  >
+    <Link href="/" className="flex flex-grow items-center gap-2">
+      <Image src={Logo} alt="Logo" width={20} />
+      <h2 className={caveat.className}>Werfit Blog</h2>
+    </Link>
+
+    <div className="hidden grid-cols-subgrid items-center md:col-span-6 md:grid lg:col-span-8">
+      <div className="text-black col-span-2 flex justify-center gap-4 tracking-wider md:col-span-3 lg:col-span-5">
+        <Link href="/" className="transition hover:text-black-500">
           Home
         </Link>
-        <Link
-          href="#"
-          className="hover:text-black-500 transition"
-        >
+        <Link href="#" className="transition hover:text-black-500">
           Connect
         </Link>
       </div>
-
       <Link
         href="/article/create"
-        className="px-4 py-2 bg-primary-500 rounded-md text-white tracking-widest font-medium transition hover:bg-primary-400"
+        className="hidden rounded-md bg-primary-500 px-1 py-2 text-center font-medium tracking-widest text-white transition hover:bg-primary-400 sm:block sm:px-4"
       >
-        Write
+        <span className="hidden sm:inline">Write</span>
       </Link>
-
-      <div className="flex justify-center items-stretch gap-2">
-        <Search />
-        <FavoritesIcon />
+      <div className="hidden items-center justify-center gap-2 sm:flex md:col-span-2">
+        <Search from="0px" to="150px" />
+        <FavoritesIcon>
+          <FavoritesList />
+        </FavoritesIcon>
+        <AuthButtons />
       </div>
+    </div>
 
-      <AuthButtons />
-    </nav>
-  );
-};
+    <div className="text-right md:hidden">
+      <ActionsIcon className="cursor-pointer" />
+    </div>
+  </nav>
+);
 
 export { Navigation };

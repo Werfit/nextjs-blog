@@ -1,12 +1,13 @@
 type IconProps = {
   name: string;
+  filled?: boolean;
   className?: string;
   onClick?: () => void;
 };
 
-const Icon: React.FC<IconProps> = ({ name, className, onClick }) => (
+const Icon: React.FC<IconProps> = ({ name, filled, className, onClick }) => (
   <span
-    className={`material-symbols-outlined my-2 ${className ?? ""}`}
+    className={`${filled ? "material-symbols-filled" : ""} material-symbols-outlined my-2 ${className ?? ""}`}
     onClick={onClick}
   >
     {name}

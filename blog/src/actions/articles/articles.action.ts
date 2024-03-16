@@ -16,7 +16,7 @@ export type ArticleResponse = Omit<
 
 export const getArticles = async (
   limit = 5,
-  page = 0
+  page = 0,
 ): Promise<{ data: ArticleResponse[]; count: number }> => {
   const { error, data, count } = await client
     .from("articles")
@@ -29,7 +29,7 @@ export const getArticles = async (
       content,
       created_at,
       owner (id, username)`,
-      { count: "exact" }
+      { count: "exact" },
     )
     .range(page * limit, (page + 1) * limit)
     .returns<ArticleResponse[]>();
@@ -43,7 +43,7 @@ export const getArticles = async (
 };
 
 export const getArticleById = async (
-  id: Tables<"articles">["id"]
+  id: Tables<"articles">["id"],
 ): Promise<{ data: ArticleResponse | null }> => {
   try {
     const { error, data } = await client
@@ -56,11 +56,10 @@ export const getArticleById = async (
         content_html,
         content,
         created_at,
-        owner (id, username)`
+        owner (id, username)`,
       )
       .eq("id", id)
-      .returns<ArticleResponse>()
-      .single();
+      .single<ArticleResponse>();
 
     if (error) {
       throw new Error(error.message);

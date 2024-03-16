@@ -15,7 +15,7 @@ type UserWithoutPassword = Omit<User<OriginalUser>, "password">;
 
 export const loginUser = async (
   username: string,
-  password: string
+  password: string,
 ): Promise<UserWithoutPassword> => {
   const { data: user } = await client
     .from("users")
@@ -37,7 +37,7 @@ export const loginUser = async (
 
 export const createUser = async (
   username: string,
-  password: string
+  password: string,
 ): Promise<UserWithoutPassword> => {
   const { data: targetUser } = await client
     .from("users")
@@ -48,7 +48,7 @@ export const createUser = async (
   if (targetUser) {
     throw new HttpError(
       "User with this username already exists",
-      HttpStatus.FORBIDDEN
+      HttpStatus.FORBIDDEN,
     );
   }
 

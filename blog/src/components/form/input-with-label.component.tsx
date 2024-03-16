@@ -20,13 +20,13 @@ const InputWithLabel = forwardRef<HTMLInputElement, InputWithLabelProps>(
     return (
       <div>
         <input
-          className={`bg-lightGray-100 w-full py-3 px-4 rounded-md tracking-wider outline-0 transition placeholder:text-sm focus-within:bg-lightGray-50 ${inputStateClasses} ${className}`}
+          className={`w-full rounded-md bg-lightGray-100 px-4 py-3 tracking-wider outline-0 transition placeholder:text-sm focus-within:bg-lightGray-50 ${inputStateClasses} ${className}`}
           {...props}
           ref={ref}
           spellCheck="false"
         />
         {errorMessage?.length && (
-          <span className="text-xs text-red-500 mt-2 tracking-wider">
+          <span className="mt-2 text-xs tracking-wider text-red-500">
             {errorMessage}
           </span>
         )}

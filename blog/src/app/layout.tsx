@@ -28,9 +28,10 @@ const Layout = async ({
     <html lang="en">
       <body className={asap.className}>
         <SessionProvider session={session}>{children}</SessionProvider>
-        <div id="loader"></div>
         <div id="modal"></div>
+        <div id="mobile-menu"></div>
         <div id="overlays"></div>
+        <div id="loader"></div>
       </body>
     </html>
   );

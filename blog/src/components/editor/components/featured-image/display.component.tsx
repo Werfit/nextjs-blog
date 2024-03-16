@@ -25,7 +25,7 @@ const FeaturedImageDisplay: React.FC<FeaturedImageDisplayProps> = ({
           animate={{ x: 0, opacity: 1 }}
           exit={{ x: -50, opacity: 0, position: "absolute" }}
           key={LoadingStatus.NONE}
-          className="flex flex-col justify-center items-center"
+          className="flex flex-col items-center justify-center"
         >
           <h2 className="text-xl">Upload your image</h2>
           <Icon name="upload" />
@@ -34,7 +34,7 @@ const FeaturedImageDisplay: React.FC<FeaturedImageDisplayProps> = ({
 
       {status === LoadingStatus.LOADING && (
         <motion.p
-          className="text-center absolute"
+          className="absolute text-center"
           key={LoadingStatus.LOADING}
           initial={{ x: 50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
@@ -46,7 +46,7 @@ const FeaturedImageDisplay: React.FC<FeaturedImageDisplayProps> = ({
 
       {status === LoadingStatus.LOADED && (
         <motion.img
-          className="text-center object-cover w-full h-full"
+          className="h-full w-full object-cover text-center"
           src={featuredImageSrc}
           key={LoadingStatus.LOADED}
           initial={{ opacity: 0 }}

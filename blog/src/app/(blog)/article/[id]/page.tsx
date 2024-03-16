@@ -6,6 +6,9 @@ import "@/assets/styles/article.css";
 import { calculateTimeToRead } from "@/utils/reading-time.util";
 import Image from "next/image";
 
+import { addToFavorites } from "@/actions/favorites/favorites.action";
+import { Icon } from "@/components/icon/icon.component";
+
 type ArticleProps = { params: { id: string } };
 
 const sourceCodePro = Source_Code_Pro({
@@ -18,17 +21,17 @@ const Article: React.FC<ArticleProps> = async ({ params }) => {
 
   return data ? (
     <article
-      className={`!col-start-[full-screen] col-end-[full-screen] bg-white grid-container`}
+      className={`grid-container !col-start-[full-screen] col-end-[full-screen] bg-white`}
     >
       <Image
-        className="w-full h-96 object-cover mb-6 !col-start-[full-screen] !col-end-[full-screen]"
+        className="!col-start-[full-screen] !col-end-[full-screen] mb-6 h-96 w-full object-cover"
         src={data.featured_image_url}
         alt={data.title}
         width={1000}
         height={500}
       />
-      <section className="flex items-center justify-between mb-4">
-        <h1 className="text-3xl w-full flex-1 leading-6">{data.title}</h1>
+      <section className="mb-4 flex flex-col justify-between gap-2 md:flex-row md:items-center">
+        <h1 className="w-full flex-1 text-3xl leading-6">{data.title}</h1>
         <div className="flex flex-col text-sm text-gray-500">
           <span>Author: {data.owner.username}</span>
           <span>Time to read: {calculateTimeToRead(data.content)} minutes</span>
@@ -36,15 +39,24 @@ const Article: React.FC<ArticleProps> = async ({ params }) => {
       </section>
 
       <section
-        className={`leading-6 article ${sourceCodePro.variable}`}
+        className={`article ${sourceCodePro.variable}`}
         dangerouslySetInnerHTML={{ __html: data.content_html }}
       ></section>
 
-      <footer className="text-sm text-gray-500 tracking-wider text-right">
-        Article was written:{" "}
-        <span className="font-semibold break-words">
-          {moment(data.created_at).format("DD/MM/YYYY")}
-        </span>
+      <footer className="mt-6 flex items-center justify-between">
+        <form action={addToFavorites}>
+          <input name="articleId" type="hidden" value={data.id} />
+          <button className="fill-black-700">
+            <Icon name="favorite" className="text-4xl" filled />
+          </button>
+        </form>
+
+        <div className="text-sm tracking-wider text-gray-500">
+          Article was written:{" "}
+          <span className="break-words font-semibold">
+            {moment(data.created_at).format("DD/MM/YYYY")}
+          </span>
+        </div>
       </footer>
     </article>
   ) : (

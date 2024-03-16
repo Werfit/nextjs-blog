@@ -54,7 +54,7 @@ const SignUp = () => {
   return (
     <>
       <form
-        className="w-[40vw] flex flex-col gap-2 mx-auto mt-5 mb-2"
+        className="mx-auto mb-2 mt-5 flex w-[40vw] flex-col gap-2"
         onSubmit={handleSubmit(submitHandler)}
         method="POST"
       >
@@ -81,13 +81,13 @@ const SignUp = () => {
 
         <FormSubmitButton isLoading={isLoading}>Continue</FormSubmitButton>
         {errors.root && (
-          <p className="text-sm text-center text-rose-500">
+          <p className="text-center text-sm text-rose-500">
             {errors.root.message}
           </p>
         )}
       </form>
 
-      <div className="text-sm text-center text-gray-500">
+      <div className="text-center text-sm text-gray-500">
         Already have an account?{" "}
         <Link href="/auth/login" className="text-primary-500">
           Log in

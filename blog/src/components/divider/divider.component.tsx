@@ -1,5 +1,5 @@
 const Divider = () => (
-  <div className="min-h-6 h-full w-0.5 bg-gray-100 rounded-sm"></div>
+  <div className="h-full min-h-6 w-0.5 rounded-sm bg-gray-100"></div>
 );
 
 export { Divider };

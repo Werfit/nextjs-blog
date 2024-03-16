@@ -3,9 +3,14 @@ import { useState } from "react";
 import { useTransition } from "@react-spring/web";
 import { Icon } from "@/components/icon/icon.component";
 import { Portal } from "@/components/portal/portal.component";
-import { Favorites } from "@/components/favorites/favorites.component";
+import { Favorites } from "./favorites.component";
 
-const FavoritesIcon = () => {
+type FavoriteIconProps = {
+  onClick?: () => Promise<void>;
+  children?: React.ReactNode;
+};
+
+const FavoritesIcon: React.FC<FavoriteIconProps> = ({ children, onClick }) => {
   const [showFavorites, setShowFavorites] = useState(false);
 
   const transitions = useTransition(showFavorites ? [1] : [], {
@@ -17,8 +22,9 @@ const FavoritesIcon = () => {
   return (
     <>
       <button
-        className="bg-lightGray-200 rounded-md text-black px-2 transition hover:bg-lightGray-100"
+        className="text-black rounded-md bg-lightGray-200 px-2 transition hover:bg-lightGray-100"
         onClick={() => {
+          onClick?.();
           setShowFavorites(true);
         }}
       >
@@ -27,7 +33,11 @@ const FavoritesIcon = () => {
 
       {transitions((style) => (
         <Portal targetId="overlays">
-          <Favorites style={style} onClose={() => setShowFavorites(false)} />
+          {
+            <Favorites style={style} onClose={() => setShowFavorites(false)}>
+              {children}
+            </Favorites>
+          }
         </Portal>
       ))}
     </>
