@@ -41,35 +41,24 @@ const CreateArticle = () => {
       setIsLoading(false);
       const error = err as Error;
       console.log(error.message);
-    } finally {
     }
   };
 
   return (
     <form
       onSubmit={handleSubmit(handleArticleCreation)}
-      className="flex flex-col gap-4"
+      className="mt-10 flex flex-col gap-4"
     >
       <FeaturedImageUploader
         value={getValues("featuredImage")}
         onChange={(url) => setValue("featuredImage", url)}
       />
 
-      <div className="flex flex-wrap items-center gap-2">
-        <input
-          placeholder="Untitled"
-          className="w-full min-w-48 flex-1 text-4xl font-semibold tracking-widest text-gray-700 outline-0"
-          {...register("title")}
-        />
-
-        <button
-          type="submit"
-          className="rounded-md border-2 border-primary-500 px-4 py-2 tracking-wider text-primary-500 transition hover:bg-primary-500 hover:text-white disabled:bg-primary-500/10"
-          disabled={isLoading}
-        >
-          Submit
-        </button>
-      </div>
+      <input
+        placeholder="Untitled"
+        className="w-full min-w-48 flex-1 bg-transparent text-4xl font-semibold tracking-widest text-gray-700 outline-0"
+        {...register("title")}
+      />
 
       <Editor
         onUpdate={(htmlValue, textValue) => {
@@ -78,6 +67,14 @@ const CreateArticle = () => {
         }}
         placeholder="Share you thoughts here!"
       />
+
+      <button
+        type="submit"
+        className="rounded-md border-2 border-primary-500 px-4 py-2 tracking-wider text-primary-500 transition hover:bg-primary-500 hover:text-white disabled:border-primary-500/20 disabled:bg-primary-500/60 disabled:text-white"
+        disabled={isLoading}
+      >
+        Submit
+      </button>
     </form>
   );
 };

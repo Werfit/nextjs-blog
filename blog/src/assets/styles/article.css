@@ -3,8 +3,14 @@
 @layer components {
   .article {
     @apply min-h-72 leading-6 outline-none;
-    /* white-space: break-spaces;
-    word-wrap: break-word; */
+  }
+
+  .article .is-editor-empty:first-child::before {
+    color: #adb5bd;
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
   }
 
   .article p {

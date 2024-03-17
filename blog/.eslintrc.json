@@ -1,6 +1,11 @@
 {
-  "extends": "next/core-web-vitals",
-  "rules": {
-    "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }]
-  }
+  "extends": [
+    "eslint:recommended",
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ]
+  // "rules": {
+  //   "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }]
+  // }
 }

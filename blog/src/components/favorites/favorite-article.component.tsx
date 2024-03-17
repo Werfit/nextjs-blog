@@ -8,7 +8,7 @@ type FavoriteArticleProps = {
 
 const FavoriteArticle: React.FC<FavoriteArticleProps> = ({ article }) => {
   return (
-    <article className="flex h-32 items-center overflow-hidden rounded-md bg-gray-100 shadow-md shadow-black-700/10">
+    <article className="flex h-32 items-center overflow-hidden rounded-md bg-white shadow-sm shadow-black-700/10">
       <Image
         src={article.featured_image_url}
         alt={article.title}

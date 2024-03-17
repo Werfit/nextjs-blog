@@ -27,8 +27,8 @@ const FeaturedImageDisplay: React.FC<FeaturedImageDisplayProps> = ({
           key={LoadingStatus.NONE}
           className="flex flex-col items-center justify-center"
         >
-          <h2 className="text-xl">Upload your image</h2>
-          <Icon name="upload" />
+          <h2 className="hidden text-xl sm:inline">Upload your image</h2>
+          <Icon name="upload" className="text-4xl sm:-mt-1 sm:text-2xl" />
         </motion.div>
       )}
 

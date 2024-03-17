@@ -5,6 +5,7 @@ import { getServerSession } from "next-auth";
 
 import "@/assets/styles/globals.css";
 import "@/assets/styles/icons.css";
+import { combineClassNames } from "@/utils/class-name.util";
 
 const asap = Asap({
   subsets: ["latin"],
@@ -26,7 +27,9 @@ const Layout = async ({
 
   return (
     <html lang="en">
-      <body className={asap.className}>
+      <body
+        className={combineClassNames(asap.className, "bg-gray-50 leading-6")}
+      >
         <SessionProvider session={session}>{children}</SessionProvider>
         <div id="modal"></div>
         <div id="mobile-menu"></div>

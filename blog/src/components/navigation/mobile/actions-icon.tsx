@@ -4,12 +4,17 @@ import { Icon } from "@/components/icon/icon.component";
 import { useState } from "react";
 import { OverlayActions } from "./overlay-actions.component";
 import { Portal } from "@/components/portal/portal.component";
+import { AnimatePresence } from "framer-motion";
 
 type ActionsIconProps = {
+  favoritesList: React.ReactNode;
   className?: string;
 };
 
-const ActionsIcon: React.FC<ActionsIconProps> = ({ className }) => {
+const ActionsIcon: React.FC<ActionsIconProps> = ({
+  favoritesList,
+  className,
+}) => {
   const [isMenuOpened, setMenuOpened] = useState(false);
 
   return (
@@ -20,11 +25,16 @@ const ActionsIcon: React.FC<ActionsIconProps> = ({ className }) => {
         onClick={() => setMenuOpened(true)}
       />
 
-      {isMenuOpened && (
-        <Portal targetId="overlays">
-          <OverlayActions onClose={() => setMenuOpened(false)} />
-        </Portal>
-      )}
+      <Portal targetId="overlays">
+        <AnimatePresence>
+          {isMenuOpened && (
+            <OverlayActions
+              favoritesList={favoritesList}
+              onClose={() => setMenuOpened(false)}
+            />
+          )}
+        </AnimatePresence>
+      </Portal>
     </>
   );
 };

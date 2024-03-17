@@ -9,7 +9,6 @@ import {
 
 type FeaturedImageUploaderProps = {
   value: string | undefined;
-  // eslint-disable-next-line no-unused-vars
   onChange: (value: string) => void;
 };
 
@@ -55,7 +54,7 @@ const FeaturedImageUploader: React.FC<FeaturedImageUploaderProps> = ({
   };
 
   return (
-    <label className="flex h-64 w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-md bg-gray-100 text-lg font-bold text-gray-500 transition">
+    <label className="flex h-36 w-full cursor-pointer flex-col items-center justify-center overflow-hidden rounded-md bg-gray-100 text-lg font-bold text-gray-500 transition sm:h-48 md:h-64">
       <input
         type="file"
         className="hidden"

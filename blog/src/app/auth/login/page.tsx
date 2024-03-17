@@ -45,7 +45,7 @@ const Login = () => {
   return (
     <>
       <form
-        className="mx-auto mb-2 mt-5 flex w-[40vw] flex-col gap-2"
+        className="mx-auto mb-2 mt-5 flex flex-col gap-2 md:w-[40vw]"
         onSubmit={handleSubmit(submitForm)}
       >
         <InputWithLabel

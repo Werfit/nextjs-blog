@@ -41,6 +41,13 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-asap)", ...fontFamily.sans],
       },
+      fontSize: {
+        title: "2rem",
+        heading: "1.5rem",
+        subheading: "1.25rem",
+        body: "1rem",
+        nav: "1.125rem",
+      },
     },
   },
   plugins: [

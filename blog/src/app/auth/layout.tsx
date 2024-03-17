@@ -26,7 +26,7 @@ const AuthLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   }
 
   return (
-    <div className="flex h-screen w-screen items-center justify-center">
+    <div className="grid-container h-screen w-screen items-center justify-center md:flex">
       <div>
         <h1 className="text-center text-2xl font-bold tracking-widest text-black-700">
           Welcome to Werfit Blog!

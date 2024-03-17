@@ -4,7 +4,6 @@ import { ChangeEvent, useRef } from "react";
 
 type ImageLoaderProps = {
   className?: string;
-  // eslint-disable-next-line no-unused-vars
   onLoad: (content: string | ArrayBuffer) => void;
 };
 

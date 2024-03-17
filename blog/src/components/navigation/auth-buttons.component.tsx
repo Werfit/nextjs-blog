@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { ProfileButton } from "@/components/navigation/profile-button.component";
+import { ProfileIconButton } from "./profile-button/icon.component";
 
 type AuthButtonsProps = {
   className?: string;
@@ -12,7 +12,7 @@ const AuthButtons: React.FC<AuthButtonsProps> = ({ className }) => {
   const session = useSession();
 
   return session.status === "authenticated" ? (
-    <ProfileButton className={className} user={session.data.user} />
+    <ProfileIconButton className={className} user={session.data.user} />
   ) : (
     <Link
       href="/auth"

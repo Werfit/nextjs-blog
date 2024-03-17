@@ -21,7 +21,7 @@ const Article: React.FC<ArticleProps> = async ({ params }) => {
 
   return data ? (
     <article
-      className={`grid-container !col-start-[full-screen] col-end-[full-screen] bg-white`}
+      className={`grid-container !col-start-[full-screen] col-end-[full-screen]`}
     >
       <Image
         className="!col-start-[full-screen] !col-end-[full-screen] mb-6 h-96 w-full object-cover"
