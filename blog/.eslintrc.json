@@ -4,8 +4,16 @@
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended",
     "prettier"
-  ]
-  // "rules": {
-  //   "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }]
-  // }
+  ],
+  "rules": {
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_",
+        "destructuredArrayIgnorePattern": "^_",
+        "varsIgnorePattern": "^_"
+      }
+    ]
+  }
 }

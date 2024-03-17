@@ -1,26 +1,25 @@
 type RequestMethods = "GET" | "POST" | "PUT" | "DELETE";
-type Data = Record<string, any> | FormData;
+type Data = Record<string, unknown> | FormData;
 type Body = string | FormData;
 
-const formBodyAndHeaders = (
-  data: Data,
-): { body: Body; headers: Record<string, any> } => {
+const formBodyAndHeaders = (data: Data): { body: Body; headers: Headers } => {
+  const headers = new Headers();
+
   if (data instanceof FormData) {
-    return { body: data, headers: {} };
+    return { body: data, headers };
   }
 
+  headers.append("Content-type", "application/json");
   return {
     body: JSON.stringify(data),
-    headers: {
-      "Content-type": "application/json",
-    },
+    headers,
   };
 };
 
 export const request = async <T>(
   url: string,
   method: RequestMethods,
-  data: Record<string, any> | FormData,
+  data: Record<string, unknown> | FormData,
 ): Promise<T> => {
   const { body, headers } = formBodyAndHeaders(data);
 

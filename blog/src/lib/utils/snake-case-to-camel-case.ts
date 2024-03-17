@@ -1,4 +1,4 @@
-type Entity = Record<string, any>;
+type Entity = Record<string, unknown>;
 
 export const convertSnakeCaseToCamelCase = <T extends Entity | Entity[] | null>(
   obj: T,
@@ -30,7 +30,7 @@ export const convertSnakeCaseToCamelCase = <T extends Entity | Entity[] | null>(
     delete obj[key];
 
     if (typeof value === "object") {
-      obj[camelCaseKey] = convertSnakeCaseToCamelCase(value);
+      obj[camelCaseKey] = convertSnakeCaseToCamelCase(value as Entity);
     } else {
       obj[camelCaseKey] = value;
     }

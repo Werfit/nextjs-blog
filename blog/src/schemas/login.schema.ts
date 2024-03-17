@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 const USERNAME_MIN_LENGTH = 4;
-const PASSWORD_MIN_LENGTH = 8;
 
 // TODO: Combine common properties with registrationSchema
 export const loginSchema = z.object({
