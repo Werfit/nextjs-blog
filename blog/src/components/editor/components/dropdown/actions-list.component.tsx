@@ -15,7 +15,7 @@ type ActionsListProps = {
 };
 
 const ActionsList: React.FC<ActionsListProps> = ({ actions, onClick }) => {
-  const { scope } = useAnimationOnInitAndCleanup({
+  const { scope } = useAnimationOnInitAndCleanup<HTMLDivElement>({
     onEnter: async (scope, animate) => {
       await animate(scope.current, { opacity: 1 }, ANIMATION_CONFIG);
     },

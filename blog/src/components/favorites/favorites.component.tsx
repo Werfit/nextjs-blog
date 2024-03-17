@@ -10,7 +10,7 @@ type FavoritesProps = {
 };
 
 const Favorites: React.FC<FavoritesProps> = ({ children, onClose }) => {
-  const { scope } = useAnimationOnInitAndCleanup({
+  const { scope } = useAnimationOnInitAndCleanup<HTMLDivElement>({
     onEnter: async (scope, animate) => {
       await Promise.all([
         animate(scope.current, { opacity: 1 }, ANIMATION_CONFIG),
