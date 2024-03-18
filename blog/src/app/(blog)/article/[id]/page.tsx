@@ -6,8 +6,8 @@ import "@/assets/styles/article.css";
 import { calculateTimeToRead } from "@/utils/reading-time.util";
 import Image from "next/image";
 
-import { addToFavorites } from "@/actions/favorites/favorites.action";
-import { Icon } from "@/components/icon/icon.component";
+import { combineClassNames } from "@/utils/class-name.util";
+import { FavoriteButton } from "@/components/favorites/favorite-button.component";
 
 type ArticleProps = { params: { id: string } };
 
@@ -39,17 +39,12 @@ const Article: React.FC<ArticleProps> = async ({ params }) => {
       </section>
 
       <section
-        className={`article ${sourceCodePro.variable}`}
+        className={combineClassNames("article", sourceCodePro.variable)}
         dangerouslySetInnerHTML={{ __html: data.content_html }}
       ></section>
 
       <footer className="mt-6 flex items-center justify-between">
-        <form action={addToFavorites}>
-          <input name="articleId" type="hidden" value={data.id} />
-          <button className="fill-black-700">
-            <Icon name="favorite" className="text-4xl" filled />
-          </button>
-        </form>
+        <FavoriteButton articleId={data.id} isActive={data.isFavorite} />
 
         <div className="text-sm tracking-wider text-gray-500">
           Article was written:{" "}

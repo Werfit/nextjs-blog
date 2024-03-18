@@ -1,5 +1,5 @@
 import { getFavorites } from "@/actions/favorites/favorites.action";
-import { FavoriteArticle } from "./favorite-article.component";
+import { FavoriteArticle } from "../article/favorite-article.component";
 
 const FavoritesList = async () => {
   const favorites = await getFavorites();

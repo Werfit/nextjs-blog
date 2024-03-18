@@ -34,6 +34,7 @@ const SlidingInput: React.FC<SlidingInputProps> = ({ from, to, onClose }) => {
         type="text"
         className="w-full bg-transparent py-2 text-sm outline-none"
         spellCheck="false"
+        autoFocus
       ></input>
 
       <Icon name="close" className="cursor-pointer" onClick={onClose} />

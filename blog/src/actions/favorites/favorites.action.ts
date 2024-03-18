@@ -6,6 +6,8 @@ import { auth } from "../user/helpers/auth";
 import { logger } from "@/lib/logger/logger";
 
 import { ArticleResponse } from "../articles/articles.action";
+import { revalidatePath } from "next/cache";
+import { createFavorite, isInFavorite, removeFavorite } from "./utils";
 
 export const getFavorites = async (): Promise<{
   data: ArticleResponse[];
@@ -40,7 +42,7 @@ export const getFavorites = async (): Promise<{
   }
 };
 
-export const addToFavorites = async (data: FormData) => {
+export const toggleFavorite = async (data: FormData) => {
   const session = await auth();
 
   if (!session) {
@@ -64,14 +66,16 @@ export const addToFavorites = async (data: FormData) => {
       throw new Error("Article does not exist");
     }
 
-    const { error: insertionError } = await client.from("favorites").insert({
-      article: article.id,
-      user: session.user.id,
-    });
+    const isFavorite = await isInFavorite(article.id, session.user.id);
 
-    if (insertionError) {
-      throw new Error(insertionError.message);
+    if (isFavorite) {
+      await removeFavorite(article.id, session.user.id);
+    } else {
+      await createFavorite(article.id, session.user.id);
     }
+
+    revalidatePath("/", "page");
+    return { isFavorite: !isFavorite };
   } catch (err) {
     const error = err as Error;
     logger.error(error.message, error);

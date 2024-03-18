@@ -6,6 +6,7 @@ import { sanitizeHtml } from "@/lib/sanitizer/sanitize-html";
 import { createArticleSchema } from "@/schemas/article.schema";
 import { Tables } from "@/lib/database/database.types";
 import { logger } from "@/lib/logger/logger";
+import { revalidatePath } from "next/cache";
 
 export type ArticleResponse = Omit<
   Tables<"articles">,
@@ -44,9 +45,11 @@ export const getArticles = async (
 
 export const getArticleById = async (
   id: Tables<"articles">["id"],
-): Promise<{ data: ArticleResponse | null }> => {
+): Promise<{ data: (ArticleResponse & { isFavorite: boolean }) | null }> => {
+  const session = await auth();
+
   try {
-    const { error, data } = await client
+    const request = client
       .from("articles")
       .select(
         `
@@ -56,10 +59,19 @@ export const getArticleById = async (
         content_html,
         content,
         created_at,
-        owner (id, username)`,
+        owner (id, username),
+        favorites (id)
+        `,
       )
-      .eq("id", id)
-      .single<ArticleResponse>();
+      .eq("id", id);
+
+    if (session) {
+      request.eq("favorites.user", session.user.id);
+    }
+
+    const { data, error } = await request.single<
+      ArticleResponse & { favorites: Tables<"favorites">[] }
+    >();
 
     if (error) {
       throw new Error(error.message);
@@ -69,7 +81,10 @@ export const getArticleById = async (
       throw new Error("Article not found");
     }
 
-    return { data };
+    const { favorites, ...targetArticle } = data;
+    const article = { ...targetArticle, isFavorite: favorites.length > 0 };
+
+    return { data: article };
   } catch (err) {
     const error = err as Error;
     logger.error(error.message, error);
@@ -112,6 +127,8 @@ export const createArticle = async (data: FormData): Promise<void> => {
     if (result.error) {
       throw new Error(result.error.message);
     }
+
+    revalidatePath("/", "page");
   } catch (err) {
     const error = err as Error;
     logger.error(error.message, error);
