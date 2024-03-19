@@ -1,13 +1,13 @@
 import Image from "next/image";
 import { Arvo } from "next/font/google";
-import { AuthButtons } from "@/components/navigation/auth-buttons.component";
 import Logo from "@/assets/images/logo.svg";
 import Link from "next/link";
-import { Search } from "@/components/search/search-icon.component";
-import { FavoritesIcon } from "@/components/favorites/favorites-icon.component";
 import { FavoritesList } from "../favorites/favorites-list.component";
 import { ActionsIcon } from "./mobile/actions-icon";
 import { combineClassNames } from "@/utils/class-name.util";
+import { NavigationActions } from "./navigation-actions/navigation-actions.component";
+import { AuthenticatedActions } from "./navigation-actions/authenticated-actions.component";
+import { PublicActions } from "./navigation-actions/public-actions.component";
 
 const caveat = Arvo({
   weight: "400",
@@ -44,18 +44,10 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => (
           </Link>
         </div>
         <div className="hidden items-center justify-end gap-2 sm:flex md:col-span-3">
-          <Link
-            href="/article/create"
-            className="mr-3 rounded-md bg-primary-500 px-4 py-2 text-center font-medium tracking-widest text-white transition hover:bg-primary-400 sm:px-4"
-          >
-            <span className="hidden sm:inline">Write</span>
-          </Link>
-
-          <Search from="0px" to="150px" />
-          <FavoritesIcon>
-            <FavoritesList />
-          </FavoritesIcon>
-          <AuthButtons />
+          <NavigationActions
+            authenticatedChildren={<AuthenticatedActions />}
+            publicChildren={<PublicActions />}
+          />
         </div>
       </div>
 

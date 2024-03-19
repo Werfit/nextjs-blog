@@ -15,10 +15,10 @@ const lato = Lato({
 
 export default function ErrorPage({ error, reset }: ErrorProps) {
   return (
-    <main className="container mx-auto flex min-h-screen flex-col">
-      <Navigation />
+    <main className="grid-container mx-auto gap-10 pb-10">
+      <Navigation className="container mx-auto" />
       <div
-        className="flex flex-1 flex-col items-center justify-center gap-10"
+        className="flex flex-col items-center justify-center gap-10"
         style={lato.style}
       >
         <div>

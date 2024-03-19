@@ -111,6 +111,42 @@ export interface Database {
           }
         ]
       }
+      followers: {
+        Row: {
+          created_at: string
+          follower: string
+          id: string
+          subscriber: string
+        }
+        Insert: {
+          created_at?: string
+          follower: string
+          id?: string
+          subscriber: string
+        }
+        Update: {
+          created_at?: string
+          follower?: string
+          id?: string
+          subscriber?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "followers_follower_fkey"
+            columns: ["follower"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "followers_subscriber_fkey"
+            columns: ["subscriber"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       users: {
         Row: {
           created_at: string

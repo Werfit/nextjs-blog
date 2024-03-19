@@ -1,13 +1,11 @@
 "use client";
 import { motion } from "framer-motion";
 import { Icon } from "../../icon/icon.component";
-import Link from "next/link";
-import { Search } from "@/components/search/search-icon.component";
-import { FavoritesIcon } from "@/components/favorites/favorites-icon.component";
-
-import { AuthButtons } from "../auth-buttons.component";
 import { useAnimationOnInitAndCleanup } from "@/hooks/use-animation-on-init-cleanup.hook";
 import { ANIMATION_CONFIG } from "@/constants/animation.constants";
+import { NavigationActions } from "../navigation-actions/navigation-actions.component";
+import { AuthenticatedActions } from "./authenticated-actions.component";
+import { PublicActions } from "./public-actions.component";
 
 type OverlayActionsProps = {
   favoritesList: React.ReactNode;
@@ -43,32 +41,14 @@ const OverlayActions: React.FC<OverlayActionsProps> = ({
         </button>
 
         <main className="flex h-full flex-col items-center justify-center gap-4">
-          <Link
-            href="/"
-            className="transition hover:text-black-500"
-            onClick={onClose}
-          >
-            Home
-          </Link>
-          <Link
-            href="#"
-            className="transition hover:text-black-500"
-            onClick={onClose}
-          >
-            Connect
-          </Link>
-          <Link
-            href="/article/create"
-            className="w-full rounded-md bg-primary-500 px-4 py-2 text-center font-medium tracking-widest text-white transition hover:bg-primary-400"
-            onClick={onClose}
-          >
-            Write
-          </Link>
-          <Search className="w-full" from="0%" to="100%" />
-          <div className="flex items-center justify-center gap-2">
-            <FavoritesIcon>{favoritesList}</FavoritesIcon>
-            <AuthButtons />
-          </div>
+          <NavigationActions
+            authenticatedChildren={
+              <AuthenticatedActions onClose={onClose}>
+                {favoritesList}
+              </AuthenticatedActions>
+            }
+            publicChildren={<PublicActions />}
+          />
         </main>
       </div>
     </motion.div>
