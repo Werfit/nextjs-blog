@@ -1,13 +1,13 @@
-import { Source_Code_Pro } from "next/font/google";
-import { getArticleById } from "@/actions/articles/articles.action";
-import moment from "moment";
-
 import "@/assets/styles/article.css";
-import { calculateTimeToRead } from "@/utils/reading-time.util";
+
+import moment from "moment";
+import { Source_Code_Pro } from "next/font/google";
 import Image from "next/image";
 
-import { combineClassNames } from "@/utils/class-name.util";
+import { getArticleById } from "@/actions/articles/articles.action";
 import { FavoriteButton } from "@/components/favorites/favorite-button.component";
+import { combineClassNames } from "@/utils/class-name.util";
+import { calculateTimeToRead } from "@/utils/reading-time.util";
 
 type ArticleProps = { params: { id: string } };
 
@@ -20,12 +20,10 @@ const Article: React.FC<ArticleProps> = async ({ params }) => {
   const { data } = await getArticleById(params.id);
 
   return data ? (
-    <article
-      className={`grid-container !col-start-[full-screen] col-end-[full-screen]`}
-    >
+    <article className="grid-container !col-start-[full-screen] col-end-[full-screen] -mt-10">
       <Image
         className="!col-start-[full-screen] !col-end-[full-screen] mb-6 h-96 w-full object-cover"
-        src={data.featured_image_url}
+        src={data.featuredImageUrl}
         alt={data.title}
         width={1000}
         height={500}
@@ -40,16 +38,18 @@ const Article: React.FC<ArticleProps> = async ({ params }) => {
 
       <section
         className={combineClassNames("article", sourceCodePro.variable)}
-        dangerouslySetInnerHTML={{ __html: data.content_html }}
+        dangerouslySetInnerHTML={{ __html: data.contentHtml }}
       ></section>
 
       <footer className="mt-6 flex items-center justify-between">
-        <FavoriteButton articleId={data.id} isActive={data.isFavorite} />
+        {typeof data.isFavorite !== "undefined" && (
+          <FavoriteButton articleId={data.id} isActive={data.isFavorite} />
+        )}
 
         <div className="text-sm tracking-wider text-gray-500">
           Article was written:{" "}
           <span className="break-words font-semibold">
-            {moment(data.created_at).format("DD/MM/YYYY")}
+            {moment(data.createdAt).format("DD/MM/YYYY")}
           </span>
         </div>
       </footer>

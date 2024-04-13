@@ -1,4 +1,5 @@
 import { getFavorites } from "@/actions/favorites/favorites.action";
+
 import { FavoriteArticle } from "../article/favorite-article.component";
 
 const FavoritesList = async () => {

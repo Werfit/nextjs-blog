@@ -1,18 +1,21 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { Search } from "@/components/search/search-icon.component";
+import { useSession } from "next-auth/react";
+
 import { FavoritesIcon } from "@/components/favorites/favorites-icon.component";
-import { FavoritesList } from "@/components/favorites/favorites-list.component";
+import { Search } from "@/components/search/search-icon.component";
+
 import { ProfileIconButton } from "../profile-button/icon.component";
 
 type AuthenticatedActionsProps = {
   className?: string;
+  children: React.ReactNode;
 };
 
 const AuthenticatedActions: React.FC<AuthenticatedActionsProps> = ({
   className,
+  children,
 }) => {
   const session = useSession();
 
@@ -30,9 +33,7 @@ const AuthenticatedActions: React.FC<AuthenticatedActionsProps> = ({
       </Link>
 
       <Search from="0px" to="150px" />
-      <FavoritesIcon>
-        <FavoritesList />
-      </FavoritesIcon>
+      <FavoritesIcon>{children}</FavoritesIcon>
       <ProfileIconButton className={className} user={session.data.user} />
     </div>
   );

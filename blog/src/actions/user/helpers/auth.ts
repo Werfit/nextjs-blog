@@ -4,6 +4,7 @@ import type {
   NextApiResponse,
 } from "next";
 import { getServerSession } from "next-auth";
+
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 
 // Use it in server contexts

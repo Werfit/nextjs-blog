@@ -1,5 +1,6 @@
-import { Navigation } from "@/components/navigation/navigation.component";
 import { ReactNode } from "react";
+
+import { Navigation } from "@/components/navigation/navigation.component";
 
 type BlogLayoutProps = {
   children: ReactNode;
@@ -7,7 +8,7 @@ type BlogLayoutProps = {
 
 const BlogLayout: React.FC<BlogLayoutProps> = ({ children }) => {
   return (
-    <main className="grid-container pb-10">
+    <main className="grid-container gap-10 pb-10">
       <Navigation className="container mx-auto" />
 
       {children}

@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider        = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  username    String     @unique
+  password    String
+  firstName   String?
+  lastName    String?
+  createdAt   DateTime   @default(now())
+  articles    Article[]
+  favorites   Favorite[]
+  subscribers Follower[] @relation("SubscribedUser")
+  following   Follower[] @relation("FollowingUser")
+}
+
+model Article {
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  title            String
+  contentHtml      String
+  content          String
+  featuredImageUrl String
+  owner            User     @relation(fields: [ownerId], references: [id])
+  ownerId          String   @db.ObjectId
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @default(now())
+
+  inFavorites Favorite[]
+}
+
+model Favorite {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  user      User    @relation(fields: [userId], references: [id])
+  userId    String  @db.ObjectId
+  article   Article @relation(fields: [articleId], references: [id])
+  articleId String  @db.ObjectId
+}
+
+model Follower {
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  subscriber   User   @relation("SubscribedUser", fields: [subscriberId], references: [id])
+  subscriberId String @db.ObjectId
+  following    User   @relation("FollowingUser", fields: [followingId], references: [id])
+  followingId  String @db.ObjectId
+}

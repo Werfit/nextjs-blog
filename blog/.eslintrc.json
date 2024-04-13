@@ -1,11 +1,18 @@
 {
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 2023
+  },
   "extends": [
     "eslint:recommended",
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended",
     "prettier"
   ],
+  "plugins": ["simple-import-sort"],
   "rules": {
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
     "@typescript-eslint/no-unused-vars": [
       "error",
       {

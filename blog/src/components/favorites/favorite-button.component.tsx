@@ -1,8 +1,10 @@
 "use client";
 
 import { useOptimistic } from "react";
-import { Icon } from "../icon/icon.component";
+
 import { toggleFavorite } from "@/actions/favorites/favorites.action";
+
+import { Icon } from "../icon/icon.component";
 
 type FavoriteButtonProps = {
   articleId: string;

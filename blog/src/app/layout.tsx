@@ -1,10 +1,13 @@
-import type { Metadata } from "next";
-import { Asap } from "next/font/google";
-import { SessionProvider } from "@/components/auth/session-provider.component";
-import { getServerSession } from "next-auth";
-
 import "@/assets/styles/globals.css";
 import "@/assets/styles/icons.css";
+import "react-toastify/dist/ReactToastify.css";
+
+import type { Metadata } from "next";
+import { Asap } from "next/font/google";
+import { getServerSession } from "next-auth";
+import { ToastContainer } from "react-toastify";
+
+import { SessionProvider } from "@/components/auth/session-provider.component";
 import { combineClassNames } from "@/utils/class-name.util";
 
 const asap = Asap({
@@ -35,6 +38,7 @@ const Layout = async ({
         <div id="mobile-menu"></div>
         <div id="overlays"></div>
         <div id="loader"></div>
+        <ToastContainer />
       </body>
     </html>
   );

@@ -1,90 +1,125 @@
 "use server";
 
-import { client } from "@/lib/database/supabase";
-import { auth } from "../user/helpers/auth";
-import { sanitizeHtml } from "@/lib/sanitizer/sanitize-html";
-import { createArticleSchema } from "@/schemas/article.schema";
-import { Tables } from "@/lib/database/database.types";
-import { logger } from "@/lib/logger/logger";
+import { Article, Prisma, User } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
-export type ArticleResponse = Omit<
-  Tables<"articles">,
-  "updated_at" | "owner"
-> & {
-  owner: Pick<Tables<"users">, "id" | "username">;
+import prisma from "@/lib/database/database";
+import { logger } from "@/lib/logger/logger";
+import { sanitizeHtml } from "@/lib/sanitizer/sanitize-html";
+import { createArticleSchema } from "@/schemas/article.schema";
+
+import { auth } from "../user/helpers/auth";
+
+type ArticleWithOwner = Article & {
+  owner: Pick<User, "id" | "username">;
 };
 
 export const getArticles = async (
   limit = 5,
   page = 0,
-): Promise<{ data: ArticleResponse[]; count: number }> => {
-  const { error, data, count } = await client
-    .from("articles")
-    .select(
-      `
-      id,
-      featured_image_url,
-      title,
-      content_html,
-      content,
-      created_at,
-      owner (id, username)`,
-      { count: "exact" },
-    )
-    .range(page * limit, (page + 1) * limit)
-    .returns<ArticleResponse[]>();
+): Promise<{
+  data: ArticleWithOwner[];
+  count: number;
+}> => {
+  const session = await auth();
 
-  if (error || typeof count !== "number") {
-    logger.error(error?.message ?? "Count is not a number", error);
+  const followingUsersCondition:
+    | Prisma.ArticleFindManyArgs
+    | Prisma.ArticleCountArgs = session
+    ? {
+        where: {
+          owner: {
+            subscribers: {
+              some: {
+                followingId: session?.user.id,
+              },
+            },
+          },
+        },
+      }
+    : {};
+
+  try {
+    const data = await prisma.article.findMany({
+      skip: page * limit,
+      take: limit,
+      // if user is authorized, search only for followed author articles
+      ...(followingUsersCondition as Prisma.ArticleFindManyArgs),
+      include: {
+        owner: {
+          select: {
+            id: true,
+            username: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "asc",
+      },
+    });
+
+    const count = await prisma.article.count({
+      ...(followingUsersCondition as Prisma.ArticleCountArgs),
+    });
+    return { data: data, count };
+  } catch (err) {
+    const error = err as Error;
+    logger.error(error.message);
     return { data: [], count: 0 };
   }
+};
 
-  return { data: data, count };
+type GetArticleIdResponse = Article & {
+  isFavorite?: boolean;
+  owner: Pick<User, "id" | "username">;
 };
 
 export const getArticleById = async (
-  id: Tables<"articles">["id"],
-): Promise<{ data: (ArticleResponse & { isFavorite: boolean }) | null }> => {
+  id: Article["id"],
+): Promise<{
+  data: GetArticleIdResponse | null;
+}> => {
   const session = await auth();
 
   try {
-    const request = client
-      .from("articles")
-      .select(
-        `
+    const article = await prisma.article.findUnique({
+      where: {
         id,
-        featured_image_url,
-        title,
-        content_html,
-        content,
-        created_at,
-        owner (id, username),
-        favorites (id)
-        `,
-      )
-      .eq("id", id);
+      },
+      include: {
+        owner: {
+          select: {
+            id: true,
+            username: true,
+          },
+        },
+        // if user is authenticated, add field for indicating if it's in favorites
+        ...(session
+          ? {
+              inFavorites: {
+                where: {
+                  userId: session?.user.id,
+                },
+                select: {
+                  id: true,
+                },
+              },
+            }
+          : {}),
+      },
+    });
 
-    if (session) {
-      request.eq("favorites.user", session.user.id);
-    }
-
-    const { data, error } = await request.single<
-      ArticleResponse & { favorites: Tables<"favorites">[] }
-    >();
-
-    if (error) {
-      throw new Error(error.message);
-    }
-
-    if (!data) {
+    if (!article) {
       throw new Error("Article not found");
     }
 
-    const { favorites, ...targetArticle } = data;
-    const article = { ...targetArticle, isFavorite: favorites.length > 0 };
-
-    return { data: article };
+    if (article.inFavorites) {
+      const { inFavorites, ...data } = article;
+      return { data: { ...data, isFavorite: inFavorites.length > 0 } };
+    }
+    return {
+      data: article,
+    };
   } catch (err) {
     const error = err as Error;
     logger.error(error.message, error);
@@ -114,19 +149,15 @@ export const createArticle = async (data: FormData): Promise<void> => {
   });
 
   try {
-    const result = await client.from("articles").insert([
-      {
-        featured_image_url: featuredImage,
-        title,
-        content_html: sanitizeHtml(parsedValues.contentHtml),
-        content,
-        owner: userId,
+    await prisma.article.create({
+      data: {
+        featuredImageUrl: parsedValues.featuredImage,
+        title: parsedValues.title,
+        contentHtml: sanitizeHtml(parsedValues.contentHtml),
+        content: parsedValues.content,
+        ownerId: userId,
       },
-    ]);
-
-    if (result.error) {
-      throw new Error(result.error.message);
-    }
+    });
 
     revalidatePath("/", "page");
   } catch (err) {

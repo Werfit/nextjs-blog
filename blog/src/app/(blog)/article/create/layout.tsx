@@ -1,9 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { getSession } from "next-auth/react";
 import { Loader } from "@/components/loader/loader.component";
+import { usePrivateRoute } from "@/hooks/use-private-route.hook";
 
 type CreateArticleLayoutProps = {
   children: React.ReactNode;
@@ -12,20 +10,7 @@ type CreateArticleLayoutProps = {
 const CreateArticleLayout: React.FC<CreateArticleLayoutProps> = ({
   children,
 }) => {
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    setIsLoading(true);
-
-    getSession().then((session) => {
-      if (!session) {
-        router.replace("/auth/login");
-      } else {
-        setIsLoading(false);
-      }
-    });
-  }, [router]);
+  const { isLoading } = usePrivateRoute();
 
   if (isLoading) {
     return <Loader />;

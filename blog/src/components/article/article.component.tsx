@@ -1,11 +1,13 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { ArticleResponse } from "@/actions/articles/articles.action";
+import { Article as ArticleModel, User } from "@prisma/client";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 type ArticleProps = {
-  article: ArticleResponse;
+  article: ArticleModel & {
+    owner: Pick<User, "id" | "username">;
+  };
 };
 
 const ARTICLE_PREVIEW_LENGTH = 300;
@@ -23,7 +25,7 @@ const Article: React.FC<ArticleProps> = ({ article }) => {
           className="h-44 w-full object-cover"
           width={400}
           height={200}
-          src={article.featured_image_url}
+          src={article.featuredImageUrl}
           alt={article.title}
         />
       </header>

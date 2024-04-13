@@ -1,9 +1,11 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { Search } from "@/components/search/search-icon.component";
+import { useSession } from "next-auth/react";
+
 import { FavoritesIcon } from "@/components/favorites/favorites-icon.component";
+import { Search } from "@/components/search/search-icon.component";
+
 import { ProfileIconButton } from "../profile-button/icon.component";
 
 type AuthenticatedActionsProps = {
@@ -33,7 +35,7 @@ const AuthenticatedActions: React.FC<AuthenticatedActionsProps> = ({
         Home
       </Link>
       <Link
-        href="#"
+        href="/search"
         className="transition hover:text-black-500"
         onClick={onClose}
       >

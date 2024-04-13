@@ -1,6 +1,7 @@
 "use server";
 
-import { put, del } from "@vercel/blob";
+import { del, put } from "@vercel/blob";
+
 import { auth } from "../user/helpers/auth";
 
 export const deleteImage = async (url: string) => {

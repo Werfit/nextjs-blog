@@ -1,10 +1,12 @@
 "use client";
 
-import { Icon } from "@/components/icon/icon.component";
-import { useState } from "react";
-import { OverlayActions } from "./overlay-actions.component";
-import { Portal } from "@/components/portal/portal.component";
 import { AnimatePresence } from "framer-motion";
+import { useState } from "react";
+
+import { Icon } from "@/components/icon/icon.component";
+import { Portal } from "@/components/portal/portal.component";
+
+import { OverlayActions } from "./overlay-actions.component";
 
 type ActionsIconProps = {
   favoritesList: React.ReactNode;

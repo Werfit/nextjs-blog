@@ -1,16 +1,16 @@
 "use server";
 
-import { client } from "@/lib/database/supabase";
-import { Tables } from "@/lib/database/database.types";
-import { auth } from "../user/helpers/auth";
+import { Article, User } from "@prisma/client";
+import { revalidatePath } from "next/cache";
+
+import prisma from "@/lib/database/database";
 import { logger } from "@/lib/logger/logger";
 
-import { ArticleResponse } from "../articles/articles.action";
-import { revalidatePath } from "next/cache";
+import { auth } from "../user/helpers/auth";
 import { createFavorite, isInFavorite, removeFavorite } from "./utils";
 
 export const getFavorites = async (): Promise<{
-  data: ArticleResponse[];
+  data: (Article & { owner: Pick<User, "id" | "username"> })[];
 }> => {
   const session = await auth();
 
@@ -19,22 +19,25 @@ export const getFavorites = async (): Promise<{
   }
 
   try {
-    const { data, error } = await client
-      .from("favorites")
-      .select(
-        `
-        user,
-        article (*, owner (id, username))
-      `,
-      )
-      .eq("user", session.user.id)
-      .returns<Tables<"favorites"> & { article: ArticleResponse }[]>();
+    const favorites = await prisma.favorite.findMany({
+      where: {
+        userId: session.user.id,
+      },
+      include: {
+        article: {
+          include: {
+            owner: {
+              select: {
+                id: true,
+                username: true,
+              },
+            },
+          },
+        },
+      },
+    });
 
-    if (error) {
-      throw new Error(error.message);
-    }
-
-    return { data: data.map((favorite) => favorite.article) };
+    return { data: favorites.map((favorite) => favorite.article) };
   } catch (err) {
     const error = err as Error;
     logger.error(error.message, error);
@@ -51,16 +54,15 @@ export const toggleFavorite = async (data: FormData) => {
 
   const articleId = data.get("articleId");
 
-  try {
-    const { data: article, error } = await client
-      .from("articles")
-      .select("id")
-      .eq("id", articleId)
-      .single();
+  if (!articleId) {
+    return;
+  }
 
-    if (error) {
-      throw new Error(error.message);
-    }
+  try {
+    const article = await prisma.article.findUnique({
+      select: { id: true },
+      where: { id: articleId.toString() },
+    });
 
     if (!article) {
       throw new Error("Article does not exist");

@@ -1,12 +1,14 @@
-import Image from "next/image";
 import { Arvo } from "next/font/google";
-import Logo from "@/assets/images/logo.svg";
+import Image from "next/image";
 import Link from "next/link";
+
+import Logo from "@/assets/images/logo.svg";
+import { combineClassNames } from "@/utils/class-name.util";
+
 import { FavoritesList } from "../favorites/favorites-list.component";
 import { ActionsIcon } from "./mobile/actions-icon";
-import { combineClassNames } from "@/utils/class-name.util";
-import { NavigationActions } from "./navigation-actions/navigation-actions.component";
 import { AuthenticatedActions } from "./navigation-actions/authenticated-actions.component";
+import { NavigationActions } from "./navigation-actions/navigation-actions.component";
 import { PublicActions } from "./navigation-actions/public-actions.component";
 
 const caveat = Arvo({
@@ -39,13 +41,17 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => (
           <Link href="/" className="transition hover:text-black-500">
             Home
           </Link>
-          <Link href="#" className="transition hover:text-black-500">
+          <Link href="/search" className="transition hover:text-black-500">
             Connect
           </Link>
         </div>
         <div className="hidden items-center justify-end gap-2 sm:flex md:col-span-3">
           <NavigationActions
-            authenticatedChildren={<AuthenticatedActions />}
+            authenticatedChildren={
+              <AuthenticatedActions>
+                <FavoritesList />
+              </AuthenticatedActions>
+            }
             publicChildren={<PublicActions />}
           />
         </div>

@@ -1,27 +1,20 @@
-import { client } from "@/lib/database/supabase";
-import { comparePassword, hashPassword } from "@/lib/utils/password";
-import { Tables } from "@/lib/database/database.types";
-import { convertSnakeCaseToCamelCase } from "@/lib/utils/snake-case-to-camel-case";
-import { HttpError } from "@/lib/error/http-error";
+import { Prisma, User } from "@prisma/client";
+import { revalidatePath } from "next/cache";
+
 import { HttpStatus } from "@/enums/http-status.enum";
-
-type OriginalUser = Tables<"users">;
-
-type User<T extends OriginalUser> = {
-  [k in keyof T]: T[k];
-};
-
-type UserWithoutPassword = Omit<User<OriginalUser>, "password">;
+import prisma from "@/lib/database/database";
+import { HttpError } from "@/lib/error/http-error";
+import { comparePassword, hashPassword } from "@/lib/utils/password";
 
 export const loginUser = async (
   username: string,
   password: string,
-): Promise<UserWithoutPassword> => {
-  const { data: user } = await client
-    .from("users")
-    .select("*")
-    .eq("username", username)
-    .single();
+): Promise<Omit<User, "password">> => {
+  const user = await prisma.user.findUnique({
+    where: {
+      username,
+    },
+  });
 
   if (!user) {
     throw new HttpError("Incorrect credentials", HttpStatus.NOT_FOUND);
@@ -32,35 +25,39 @@ export const loginUser = async (
   }
 
   const { password: _, ...foundUser } = user;
-  return convertSnakeCaseToCamelCase(foundUser);
+  revalidatePath("/");
+  return foundUser;
 };
 
 export const createUser = async (
   username: string,
   password: string,
-): Promise<UserWithoutPassword> => {
-  const { data: targetUser } = await client
-    .from("users")
-    .select("id")
-    .eq("username", username)
-    .single();
+): Promise<Omit<User, "password">> => {
+  const targetUser = await prisma.user.count({
+    where: {
+      username,
+    },
+  });
 
-  if (targetUser) {
+  if (targetUser > 0) {
     throw new HttpError(
       "User with this username already exists",
       HttpStatus.FORBIDDEN,
     );
   }
 
-  const { data: user, error } = await client
-    .from("users")
-    .insert({ username, password: hashPassword(password) })
-    .select("id, username, created_at, first_name, last_name")
-    .single();
-
-  if (!user) {
-    throw new Error(error?.message);
+  try {
+    const userInput: Prisma.UserCreateInput = {
+      username,
+      password: hashPassword(password),
+    };
+    const user = await prisma.user.create({
+      data: userInput,
+    });
+    revalidatePath("/");
+    return user;
+  } catch (err) {
+    const error = err as Error;
+    throw new Error(error.message);
   }
-
-  return convertSnakeCaseToCamelCase(user);
 };

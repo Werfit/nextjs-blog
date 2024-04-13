@@ -47,7 +47,7 @@ const CreateArticle = () => {
   return (
     <form
       onSubmit={handleSubmit(handleArticleCreation)}
-      className="mt-10 flex flex-col gap-4"
+      className="flex flex-col gap-4"
     >
       <FeaturedImageUploader
         value={getValues("featuredImage")}

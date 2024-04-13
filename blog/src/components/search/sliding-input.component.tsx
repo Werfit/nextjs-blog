@@ -1,16 +1,25 @@
 import { motion } from "framer-motion";
+
 import { ANIMATION_CONFIG } from "@/constants/animation.constants";
 import { useAnimationOnInitAndCleanup } from "@/hooks/use-animation-on-init-cleanup.hook";
+
+import { Input } from "../form/debounce-input.component";
 import { Icon } from "../icon/icon.component";
 
 type SlidingInputProps = {
   from: string;
   to: string;
 
+  onChange?: (value: string) => void;
   onClose?: () => void;
 };
 
-const SlidingInput: React.FC<SlidingInputProps> = ({ from, to, onClose }) => {
+const SlidingInput: React.FC<SlidingInputProps> = ({
+  from,
+  to,
+  onClose,
+  onChange,
+}) => {
   const { scope } = useAnimationOnInitAndCleanup<HTMLDivElement>({
     onEnter: async (scope, animate) => {
       await animate(scope.current, { width: to, opacity: 1 }, ANIMATION_CONFIG);
@@ -30,12 +39,13 @@ const SlidingInput: React.FC<SlidingInputProps> = ({ from, to, onClose }) => {
       initial={{ width: from, opacity: 0 }}
       ref={scope}
     >
-      <input
+      <Input
         type="text"
         className="w-full bg-transparent py-2 text-sm outline-none"
         spellCheck="false"
         autoFocus
-      ></input>
+        onChange={(value) => onChange?.(value?.toString() ?? "")}
+      />
 
       <Icon name="close" className="cursor-pointer" onClick={onClose} />
     </motion.div>

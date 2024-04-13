@@ -1,6 +1,7 @@
-import { createUser } from "../[...nextauth]/auth";
 import { HttpStatus } from "@/enums/http-status.enum";
 import { HttpError } from "@/lib/error/http-error";
+
+import { createUser } from "../[...nextauth]/auth";
 
 export const POST = async (req: Request): Promise<Response> => {
   const data = await req.json();
