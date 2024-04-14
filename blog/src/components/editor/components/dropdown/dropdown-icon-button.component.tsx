@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence } from "framer-motion";
-import { MouseEvent,useState } from "react";
+import { MouseEvent, useState } from "react";
 
 import { Icon } from "../../../icon/icon.component";
 import { DropdownAction } from "../../common";

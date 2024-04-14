@@ -5,7 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider        = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -19,6 +19,7 @@ model User {
   password    String
   firstName   String?
   lastName    String?
+  imageUrl    String?
   createdAt   DateTime   @default(now())
   articles    Article[]
   favorites   Favorite[]

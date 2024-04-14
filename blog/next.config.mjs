@@ -1,3 +1,6 @@
+const getAWSImageHost = () =>
+  `${process.env.BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com`;
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -11,6 +14,12 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "images.unsplash.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: getAWSImageHost(),
         port: "",
         pathname: "/**",
       },

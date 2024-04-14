@@ -6,15 +6,27 @@ import { User } from "@/types/user.type";
 import { loginUser } from "./auth";
 
 export const authOptions: AuthOptions = {
+  pages: {
+    signIn: "/auth",
+  },
   callbacks: {
-    jwt({ token, user }) {
+    jwt({ token, user, trigger, session }) {
       // user that comes from the authorization is of custom type User rather User | AdapterUser from the next-auth
       const authorizedUser: User = user as User;
+      if (trigger === "update" && token.user) {
+        (token.user as User).imageUrl = session.imageUrl;
+      }
 
       if (user) {
         return {
           ...token,
-          user: { id: authorizedUser.id, username: authorizedUser.username },
+          user: {
+            id: authorizedUser.id,
+            username: authorizedUser.username,
+            firstName: authorizedUser.firstName,
+            lastName: authorizedUser.lastName,
+            imageUrl: authorizedUser.imageUrl,
+          },
         };
       }
 

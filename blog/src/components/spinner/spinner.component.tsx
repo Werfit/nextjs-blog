@@ -1,7 +1,7 @@
+"use client";
+
 import { motion } from "framer-motion";
 
-import { ANIMATION_CONFIG } from "@/constants/animation.constants";
-import { useAnimationOnInitAndCleanup } from "@/hooks/use-animation-on-init-cleanup.hook";
 import { combineClassNames } from "@/utils/class-name.util";
 
 type SpinnerProps = {
@@ -10,20 +10,12 @@ type SpinnerProps = {
 };
 
 const Spinner: React.FC<SpinnerProps> = ({ containerClassName, className }) => {
-  const { scope } = useAnimationOnInitAndCleanup<HTMLDivElement>({
-    onEnter: async (scope, animate) => {
-      await animate(scope.current, { opacity: 1 }, ANIMATION_CONFIG);
-    },
-    onExit: async (scope, animate) => {
-      await animate(scope.current, { opacity: 0 }, ANIMATION_CONFIG);
-    },
-  });
   return (
     <motion.div
-      ref={scope}
-      role="status"
       className={containerClassName}
       initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
     >
       <svg
         aria-hidden="true"

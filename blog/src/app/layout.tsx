@@ -7,7 +7,7 @@ import { Asap } from "next/font/google";
 import { getServerSession } from "next-auth";
 import { ToastContainer } from "react-toastify";
 
-import { SessionProvider } from "@/components/auth/session-provider.component";
+import { Providers } from "@/provider/providers";
 import { combineClassNames } from "@/utils/class-name.util";
 
 const asap = Asap({
@@ -33,7 +33,7 @@ const Layout = async ({
       <body
         className={combineClassNames(asap.className, "bg-gray-50 leading-6")}
       >
-        <SessionProvider session={session}>{children}</SessionProvider>
+        <Providers session={session}>{children}</Providers>
         <div id="modal"></div>
         <div id="mobile-menu"></div>
         <div id="overlays"></div>

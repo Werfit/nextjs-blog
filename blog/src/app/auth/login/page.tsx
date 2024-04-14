@@ -4,11 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
-import { SubmitHandler,useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 import { FormSubmitButton } from "@/components/form/form-submit-button.component";
 import { InputWithLabel } from "@/components/form/input-with-label.component";
-import { LoginSchema,loginSchema } from "@/schemas/login.schema";
+import { LoginSchema, loginSchema } from "@/schemas/login.schema";
 
 const Login = () => {
   const {
