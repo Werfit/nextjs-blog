@@ -1,4 +1,5 @@
 import Link from "next/link";
+
 import { Search } from "@/components/search/search-icon.component";
 import { combineClassNames } from "@/utils/class-name.util";
 

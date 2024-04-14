@@ -1,8 +1,10 @@
 "use client";
-import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
+import { useState } from "react";
+
 import { Icon } from "@/components/icon/icon.component";
 import { Portal } from "@/components/portal/portal.component";
+
 import { Favorites } from "./favorites.component";
 
 type FavoriteIconProps = {

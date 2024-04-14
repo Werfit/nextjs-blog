@@ -1,17 +1,17 @@
 "use client";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 import { createArticle } from "@/actions/articles/articles.action";
+import { FeaturedImageUploader } from "@/components/editor/components/featured-image/uploader.component";
 import { Editor } from "@/components/editor/editor.component";
+import { sanitizeHtml } from "@/lib/sanitizer/sanitize-html";
 import {
   CreateArticleSchema,
   createArticleSchema,
 } from "@/schemas/article.schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { sanitizeHtml } from "@/lib/sanitizer/sanitize-html";
-import { FeaturedImageUploader } from "@/components/editor/components/featured-image/uploader.component";
 
 const CreateArticle = () => {
   const { register, handleSubmit, setValue, watch, getValues } =

@@ -1,5 +1,5 @@
 import { Article, User } from "@prisma/client";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest } from "next/server";
 
 import { HttpStatus } from "@/enums/http-status.enum";
 import prisma from "@/lib/database/database";
@@ -15,12 +15,13 @@ export type SuccessResponse = {
   })[];
 };
 
-export const GET = async (
-  request: NextApiRequest,
-  response: NextApiResponse,
-) => {
+export const GET = async (request: NextRequest) => {
   const MAX_ARTICLES_RESPONSE = 5;
-  const { title } = request.query as { title: string };
+  const title = request.nextUrl.searchParams.get("title");
+
+  if (!title) {
+    return Response.json({ articles: [] }, { status: HttpStatus.OK });
+  }
 
   try {
     const articles = await prisma.article.findMany({
@@ -41,11 +42,13 @@ export const GET = async (
       },
     });
 
-    response.status(HttpStatus.OK).json({ articles });
-    return;
+    return Response.json({ articles }, { status: HttpStatus.OK });
   } catch (err) {
     const error = err as Error;
     logger.error(error.message);
-    response.status(HttpStatus.INTERNAL).json({ message: error.message });
+    return Response.json(
+      { message: error.message },
+      { status: HttpStatus.INTERNAL },
+    );
   }
 };

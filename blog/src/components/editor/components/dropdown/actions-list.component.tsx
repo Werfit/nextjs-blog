@@ -1,10 +1,12 @@
 "use client";
 
-import { MouseEvent } from "react";
 import { motion } from "framer-motion";
-import { DropdownAction } from "../../common";
-import { useAnimationOnInitAndCleanup } from "@/hooks/use-animation-on-init-cleanup.hook";
+import { MouseEvent } from "react";
+
 import { ANIMATION_CONFIG } from "@/constants/animation.constants";
+import { useAnimationOnInitAndCleanup } from "@/hooks/use-animation-on-init-cleanup.hook";
+
+import { DropdownAction } from "../../common";
 
 type ActionsListProps = {
   onClick: (

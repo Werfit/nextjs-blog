@@ -1,7 +1,7 @@
+import Color from "color";
 import type { Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
 import plugin from "tailwindcss/plugin";
-import Color from "color";
 
 const lighten = (color: string, ratio: number) =>
   Color(color).lighten(ratio).toString();

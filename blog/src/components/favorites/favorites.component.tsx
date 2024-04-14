@@ -1,6 +1,7 @@
 "use client";
-import { Icon } from "@/components/icon/icon.component";
 import { motion } from "framer-motion";
+
+import { Icon } from "@/components/icon/icon.component";
 import { ANIMATION_CONFIG } from "@/constants/animation.constants";
 import { useAnimationOnInitAndCleanup } from "@/hooks/use-animation-on-init-cleanup.hook";
 

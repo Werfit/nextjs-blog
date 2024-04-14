@@ -1,6 +1,7 @@
+import { ChangeEvent, useRef } from "react";
+
 import { uploadImage } from "@/actions/articles/image-upload.action";
 import { Icon } from "@/components/icon/icon.component";
-import { ChangeEvent, useRef } from "react";
 
 type ImageLoaderProps = {
   className?: string;

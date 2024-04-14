@@ -1,6 +1,7 @@
 "use client";
 
 import { Lato } from "next/font/google";
+
 import { Navigation } from "@/components/navigation/navigation.component";
 
 type ErrorProps = {

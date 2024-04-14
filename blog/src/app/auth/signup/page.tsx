@@ -1,18 +1,19 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { signIn } from "next-auth/react";
+import { useState } from "react";
+import { SubmitHandler,useForm } from "react-hook-form";
+
+import { FormSubmitButton } from "@/components/form/form-submit-button.component";
 import { InputWithLabel } from "@/components/form/input-with-label.component";
-import { useForm, SubmitHandler } from "react-hook-form";
 import {
   RegistrationSchema,
   registrationSchema,
 } from "@/schemas/registration.schema";
-import { FormSubmitButton } from "@/components/form/form-submit-button.component";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
-import Link from "next/link";
 import { request } from "@/services/http.service";
-import { useState } from "react";
 
 const SignUp = () => {
   const {

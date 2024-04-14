@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { getSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 
 export const usePrivateRoute = (redirectTo: string = "/auth/login") => {
   const [isLoading, setIsLoading] = useState(false);

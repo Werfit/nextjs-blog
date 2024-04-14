@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect } from "react";
 import {
-  usePresence,
-  useAnimate,
-  ValueAnimationTransition,
   AnimationPlaybackControls,
   AnimationScope,
+  useAnimate,
+  usePresence,
+  ValueAnimationTransition,
 } from "framer-motion";
+import { useEffect } from "react";
 
 type AnimateFn = (
   from: unknown,

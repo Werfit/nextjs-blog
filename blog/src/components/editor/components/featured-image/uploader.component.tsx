@@ -1,11 +1,12 @@
 "use client";
 import { ChangeEvent, useState } from "react";
 
-import { FeaturedImageDisplay, LoadingStatus } from "./display.component";
 import {
   deleteImage,
   uploadImage,
 } from "@/actions/articles/image-upload.action";
+
+import { FeaturedImageDisplay, LoadingStatus } from "./display.component";
 
 type FeaturedImageUploaderProps = {
   value: string | undefined;

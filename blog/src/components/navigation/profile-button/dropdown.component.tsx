@@ -1,11 +1,12 @@
 "use client";
-import Link from "next/link";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { signOut } from "next-auth/react";
-import { useAnimationOnInitAndCleanup } from "@/hooks/use-animation-on-init-cleanup.hook";
-import { ANIMATION_CONFIG } from "@/constants/animation.constants";
-import { combineClassNames } from "@/utils/class-name.util";
 import { useEffect, useState } from "react";
+
+import { ANIMATION_CONFIG } from "@/constants/animation.constants";
+import { useAnimationOnInitAndCleanup } from "@/hooks/use-animation-on-init-cleanup.hook";
+import { combineClassNames } from "@/utils/class-name.util";
 
 type ProfileDropdownProps = {
   onClose: () => void;
@@ -55,7 +56,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ onClose }) => {
         initial={{ opacity: 0 }}
       >
         <Link
-          href="#"
+          href="/profile"
           className="block px-4 py-2 transition hover:bg-lightGray-50"
         >
           Profile

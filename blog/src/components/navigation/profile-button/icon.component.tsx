@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
-import { User } from "@/types/user.type";
-import { Icon } from "@/components/icon/icon.component";
 import { AnimatePresence } from "framer-motion";
-import { ProfileDropdown } from "./dropdown.component";
+import { useState } from "react";
+
+import { Icon } from "@/components/icon/icon.component";
+import { User } from "@/types/user.type";
 import { combineClassNames } from "@/utils/class-name.util";
+
+import { ProfileDropdown } from "./dropdown.component";
 
 type ProfileIconButtonProps = {
   user: User;

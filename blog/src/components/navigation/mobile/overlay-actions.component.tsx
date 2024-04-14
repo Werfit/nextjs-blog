@@ -1,8 +1,10 @@
 "use client";
 import { motion } from "framer-motion";
-import { Icon } from "../../icon/icon.component";
-import { useAnimationOnInitAndCleanup } from "@/hooks/use-animation-on-init-cleanup.hook";
+
 import { ANIMATION_CONFIG } from "@/constants/animation.constants";
+import { useAnimationOnInitAndCleanup } from "@/hooks/use-animation-on-init-cleanup.hook";
+
+import { Icon } from "../../icon/icon.component";
 import { NavigationActions } from "../navigation-actions/navigation-actions.component";
 import { AuthenticatedActions } from "./authenticated-actions.component";
 import { PublicActions } from "./public-actions.component";

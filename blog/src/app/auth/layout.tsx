@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+
 import { Loader } from "@/components/loader/loader.component";
 
 const AuthLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {

@@ -1,15 +1,16 @@
-import { MouseEventHandler } from "react";
-import { motion } from "framer-motion";
 import { useCurrentEditor } from "@tiptap/react";
+import { motion } from "framer-motion";
+import { MouseEventHandler } from "react";
 
+import { Divider } from "@/components/divider/divider.component";
 import { Icon } from "@/components/icon/icon.component";
+import { ANIMATION_CONFIG } from "@/constants/animation.constants";
+import { useAnimationOnInitAndCleanup } from "@/hooks/use-animation-on-init-cleanup.hook";
+import { combineClassNames } from "@/utils/class-name.util";
+
+import { allowedLevels, HeaderDropdownActions } from "../common";
 import { DropdownIcon } from "./dropdown/dropdown-icon-button.component";
 import { ImageLoader } from "./image-loader.component";
-import { allowedLevels, HeaderDropdownActions } from "../common";
-import { Divider } from "@/components/divider/divider.component";
-import { useAnimationOnInitAndCleanup } from "@/hooks/use-animation-on-init-cleanup.hook";
-import { ANIMATION_CONFIG } from "@/constants/animation.constants";
-import { combineClassNames } from "@/utils/class-name.util";
 
 type ToolbarProps = {
   onMouseDown?: MouseEventHandler<HTMLDivElement>;

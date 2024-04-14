@@ -1,12 +1,12 @@
 "use client";
 import { AnimatePresence } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
-import { SuccessResponse } from "@/app/api/articles/search/[title]";
+import { SuccessResponse } from "@/app/api/articles/search/route";
 import { Icon } from "@/components/icon/icon.component";
-import { useFetch } from "@/hooks/use-fetch.hook";
 import { combineClassNames } from "@/utils/class-name.util";
 
+import { SearchDropdown } from "./search-dropdown.component";
 import { SlidingInput } from "./sliding-input.component";
 
 type SearchProps = {
@@ -29,6 +29,9 @@ const Search: React.FC<SearchProps> = ({ className, to, from }) => {
     error: null,
   });
 
+  const isSearchResultEmpty =
+    !articles.isLoading && !articles.error && articles.data?.length === 0;
+
   const onSearchUpdate = async (value: string) => {
     if (value.length === 0) {
       setArticles({ data: [], isLoading: false, error: null });
@@ -36,10 +39,13 @@ const Search: React.FC<SearchProps> = ({ className, to, from }) => {
     }
 
     setArticles((state) => ({ ...state, isLoading: true }));
-    console.log("making a request");
-    const response = await fetch(`/api/articles/search/${value}`, {
-      method: "GET",
-    });
+    const queryParams = new URLSearchParams({ title: value });
+    const response = await fetch(
+      `/api/articles/search?${queryParams.toString()}`,
+      {
+        method: "GET",
+      },
+    );
 
     const result = await response.json();
 
@@ -62,7 +68,7 @@ const Search: React.FC<SearchProps> = ({ className, to, from }) => {
   return (
     <button
       className={combineClassNames(
-        `flex gap-2 rounded-md bg-lightGray-200 px-2 transition`,
+        `relative flex gap-2 rounded-md bg-lightGray-200 px-2 transition`,
         !isSearchActive ? "hover:bg-lightGray-100" : "",
         className,
       )}
@@ -82,6 +88,19 @@ const Search: React.FC<SearchProps> = ({ className, to, from }) => {
             to={to}
             onClose={() => setIsSearchActive(false)}
             onChange={onSearchUpdate}
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {isSearchActive && !isSearchResultEmpty && (
+          <SearchDropdown
+            isLoading={articles.isLoading}
+            articles={articles.data}
+            error={articles.error}
+            reset={() =>
+              setArticles({ data: [], isLoading: false, error: null })
+            }
           />
         )}
       </AnimatePresence>
