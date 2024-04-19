@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { PASSWORD_MIN_LENGTH } from "./constants";
+
 const USERNAME_MIN_LENGTH = 4;
 
 // TODO: Combine common properties with registrationSchema
@@ -24,4 +26,30 @@ export const userProfileSchema = z.object({
     .optional(),
 });
 
+export const updatePasswordSchema = z
+  .object({
+    currentPassword: z.string({
+      required_error: "Enter your current password",
+    }),
+    newPassword: z
+      .string({
+        required_error: "Enter your new password",
+      })
+      .min(PASSWORD_MIN_LENGTH, {
+        message: `Password must be at least ${PASSWORD_MIN_LENGTH} characters long`,
+      }),
+    newPasswordConfirmation: z.string({
+      required_error: "Enter your current password",
+    }),
+  })
+  .refine(
+    ({ newPasswordConfirmation, newPassword }) =>
+      newPasswordConfirmation === newPassword,
+    {
+      message: "Passwords don't match",
+      path: ["newPasswordConfirmation"],
+    },
+  );
+
 export type UserProfileSchema = z.infer<typeof userProfileSchema>;
+export type UpdatePasswordSchema = z.infer<typeof updatePasswordSchema>;

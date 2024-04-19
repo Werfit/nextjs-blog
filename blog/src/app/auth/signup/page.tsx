@@ -4,10 +4,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
-import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { FormSubmitButton } from "@/components/form/form-submit-button.component";
+import { FormSubmitButton } from "@/components/form/form-submit-button/form-submit-button.component";
+import { useFormSubmitButtonState } from "@/components/form/form-submit-button/use-form-submit-button-state.hook";
 import { InputWithLabel } from "@/components/form/input-with-label.component";
 import {
   RegistrationSchema,
@@ -24,12 +24,15 @@ const SignUp = () => {
   } = useForm<RegistrationSchema>({
     resolver: zodResolver(registrationSchema),
   });
-  const [isLoading, setIsLoading] = useState(false);
+  const { formState, startLoading, finishLoading, reset } =
+    useFormSubmitButtonState();
+
   const urlSearchParams = useSearchParams();
   const router = useRouter();
 
   const submitHandler: SubmitHandler<RegistrationSchema> = async (data) => {
-    setIsLoading(true);
+    startLoading();
+
     const requestBody = { username: data.username, password: data.password };
 
     try {
@@ -41,15 +44,17 @@ const SignUp = () => {
         redirect: false,
       });
 
+      finishLoading({ isSuccess: true, error: null });
       if (loginResponse && loginResponse.ok) {
         router.push(urlSearchParams.get("from") ?? "/");
       }
-    } catch (error) {
-      const err = error as Error;
-      setError("root", { message: err.message });
-    } finally {
-      setIsLoading(false);
+    } catch (err) {
+      const error = err as Error;
+      setError("root", { message: error.message });
+      finishLoading({ isSuccess: false, error: error.message });
     }
+
+    reset();
   };
 
   return (
@@ -80,7 +85,14 @@ const SignUp = () => {
           errorMessage={errors.confirmPassword?.message}
         />
 
-        <FormSubmitButton isLoading={isLoading}>Continue</FormSubmitButton>
+        <FormSubmitButton
+          isLoading={formState.isLoading}
+          isSuccess={formState.isSuccess}
+          isError={Boolean(formState.error)}
+          className="mt-2 text-sm"
+        >
+          Continue
+        </FormSubmitButton>
         {errors.root && (
           <p className="text-center text-sm text-rose-500">
             {errors.root.message}

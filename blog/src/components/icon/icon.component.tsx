@@ -1,3 +1,5 @@
+import { combineClassNames } from "@/utils/class-name.util";
+
 type IconProps = {
   name: string;
   filled?: boolean;
@@ -7,7 +9,11 @@ type IconProps = {
 
 const Icon: React.FC<IconProps> = ({ name, filled, className, onClick }) => (
   <span
-    className={`${filled ? "material-symbols-filled" : ""} material-symbols-outlined my-2 ${className ?? ""}`}
+    className={combineClassNames(
+      `material-symbols-outlined my-2`,
+      filled ? "material-symbols-filled" : "",
+      className,
+    )}
     onClick={onClick}
   >
     {name}

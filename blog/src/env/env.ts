@@ -10,4 +10,7 @@ export const env = {
     accessKey: process.env.ACCESS_KEY ?? "",
     secretKey: process.env.SECRET_ACCESS_KEY ?? "",
   },
+  auth: {
+    secret: process.env.NEXTAUTH_SECRET,
+  },
 } as const;

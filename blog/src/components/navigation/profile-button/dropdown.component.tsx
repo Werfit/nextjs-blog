@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 import { ANIMATION_CONFIG } from "@/constants/animation.constants";
@@ -21,6 +21,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ onClose }) => {
       await animate(scope.current, { opacity: 0 }, ANIMATION_CONFIG);
     },
   });
+  const { data } = useSession();
 
   const [positionClassNames, setPositionClassNames] = useState(
     "left-1/2 -translate-x-1/2",
@@ -56,7 +57,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ onClose }) => {
         initial={{ opacity: 0 }}
       >
         <Link
-          href="/profile"
+          href={`/user/${data?.user.id}`}
           className="block px-4 py-2 transition hover:bg-lightGray-50"
         >
           Profile
@@ -65,7 +66,8 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ onClose }) => {
           className="w-full px-4 py-2 transition hover:bg-lightGray-50"
           onClick={() =>
             signOut({
-              redirect: false,
+              // TODO: maybe will be needed in future
+              // redirect: false,
             })
           }
         >

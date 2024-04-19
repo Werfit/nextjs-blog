@@ -5,6 +5,8 @@ import plugin from "tailwindcss/plugin";
 
 const lighten = (color: string, ratio: number) =>
   Color(color).lighten(ratio).toString();
+const darken = (color: string, ratio: number) =>
+  Color(color).darken(ratio).toString();
 
 const colors = {
   primary: "#1A80E5",
@@ -25,6 +27,7 @@ const config: Config = {
       primary: {
         400: lighten(colors.primary, 0.1),
         500: colors.primary,
+        700: darken(colors.primary, 0.2),
       },
       black: {
         500: lighten(colors.black, 4),

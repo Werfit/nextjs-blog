@@ -6,7 +6,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { FormSubmitButton } from "@/components/form/form-submit-button.component";
+import { FormSubmitButton } from "@/components/form/form-submit-button/form-submit-button.component";
+import { useFormSubmitButtonState } from "@/components/form/form-submit-button/use-form-submit-button-state.hook";
 import { InputWithLabel } from "@/components/form/input-with-label.component";
 import { LoginSchema, loginSchema } from "@/schemas/login.schema";
 
@@ -22,25 +23,38 @@ const Login = () => {
   const urlSearchParams = useSearchParams();
   const router = useRouter();
 
+  const { formState, startLoading, finishLoading, reset } =
+    useFormSubmitButtonState();
+
   const submitForm: SubmitHandler<LoginSchema> = async (result) => {
-    const response = await signIn("credentials", {
-      username: result.username,
-      password: result.password,
-      redirect: false,
-    });
+    startLoading();
+    try {
+      const response = await signIn("credentials", {
+        username: result.username,
+        password: result.password,
+        redirect: false,
+      });
 
-    if (!response) {
-      setError("root", { message: "Something went wrong" });
-      return;
+      if (!response) {
+        setError("root", { message: "Something went wrong" });
+        return;
+      }
+
+      if (response.ok) {
+        finishLoading({ isSuccess: true, error: null });
+        router.push(urlSearchParams.get("from") ?? "/");
+      }
+
+      if (!response.ok) {
+        finishLoading({ isSuccess: false, error: response.error });
+        setError("root", { message: response.error ?? "" });
+      }
+    } catch (err) {
+      const error = err as Error;
+      finishLoading({ isSuccess: false, error: error.message });
     }
 
-    if (response.ok) {
-      router.push(urlSearchParams.get("from") ?? "/");
-    }
-
-    if (!response.ok) {
-      setError("root", { message: response.error ?? "" });
-    }
+    reset();
   };
 
   return (
@@ -63,7 +77,14 @@ const Login = () => {
           errorMessage={errors.password?.message}
         />
 
-        <FormSubmitButton>Login</FormSubmitButton>
+        <FormSubmitButton
+          className="mt-2 text-sm"
+          isLoading={formState.isLoading}
+          isSuccess={formState.isSuccess}
+          isError={Boolean(formState.error)}
+        >
+          Login
+        </FormSubmitButton>
 
         {errors.root && (
           <p className="text-center text-sm text-rose-500">
