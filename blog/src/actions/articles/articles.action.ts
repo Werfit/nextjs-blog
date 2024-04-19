@@ -10,17 +10,60 @@ import { createArticleSchema } from "@/schemas/article.schema";
 
 import { auth } from "../user/helpers/auth";
 
-type ArticleWithOwner = Article & {
+type PaginationResponse = {
+  metadata: { total: number; page: number; limit: number };
+};
+
+export type ArticleWithOwner = Article & {
   owner: Pick<User, "id" | "username">;
+};
+
+export const getUserArticles = async (
+  id: string,
+  limit = 5,
+  page = 0,
+): Promise<{ data: ArticleWithOwner[] } & PaginationResponse> => {
+  try {
+    const data = await prisma.article.findMany({
+      skip: page * limit,
+      take: limit,
+      where: {
+        ownerId: id,
+      },
+      include: {
+        owner: {
+          select: {
+            id: true,
+            username: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "asc",
+      },
+    });
+
+    const total = await prisma.article.count({
+      where: {
+        ownerId: id,
+      },
+    });
+    return { data: data, metadata: { total, page, limit } };
+  } catch (err) {
+    const error = err as Error;
+    logger.error(error.message);
+    return { data: [], metadata: { total: 0, page, limit } };
+  }
 };
 
 export const getArticles = async (
   limit = 5,
   page = 0,
-): Promise<{
-  data: ArticleWithOwner[];
-  count: number;
-}> => {
+): Promise<
+  {
+    data: ArticleWithOwner[];
+  } & PaginationResponse
+> => {
   const session = await auth();
 
   const followingUsersCondition:
@@ -58,14 +101,14 @@ export const getArticles = async (
       },
     });
 
-    const count = await prisma.article.count({
+    const total = await prisma.article.count({
       ...(followingUsersCondition as Prisma.ArticleCountArgs),
     });
-    return { data: data, count };
+    return { data: data, metadata: { total, page, limit } };
   } catch (err) {
     const error = err as Error;
     logger.error(error.message);
-    return { data: [], count: 0 };
+    return { data: [], metadata: { total: 0, page, limit } };
   }
 };
 

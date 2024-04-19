@@ -1,13 +1,12 @@
 "use client";
 
-import { Article as ArticleModel, User } from "@prisma/client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
+import { ArticleWithOwner } from "@/actions/articles/articles.action";
+
 type ArticleProps = {
-  article: ArticleModel & {
-    owner: Pick<User, "id" | "username">;
-  };
+  article: ArticleWithOwner;
 };
 
 const ARTICLE_PREVIEW_LENGTH = 300;

@@ -37,7 +37,7 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => (
       </Link>
 
       <div className="hidden grid-cols-subgrid items-center md:col-span-5 md:grid lg:col-span-7">
-        <div className="text-black col-span-2 flex justify-center gap-4 font-medium tracking-wider text-[#333f48] md:col-span-2 lg:col-span-4">
+        <div className="text-black text-grayBlue-500 col-span-2 flex justify-center gap-4 font-medium tracking-wider md:col-span-2 lg:col-span-4">
           <Link href="/" className="transition hover:text-black-500">
             Home
           </Link>

@@ -38,6 +38,10 @@ const config: Config = {
         50: lighten(colors.lightGray, 0.05),
         100: lighten(colors.lightGray, 0.02),
         200: colors.lightGray,
+        400: darken(colors.lightGray, 0.2),
+      },
+      grayBlue: {
+        500: "#333f48",
       },
     }),
     extend: {
