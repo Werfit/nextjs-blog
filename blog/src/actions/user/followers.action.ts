@@ -96,6 +96,7 @@ export const getUsers = async (
         username: true,
         firstName: true,
         lastName: true,
+        imageUrl: true,
         _count: {
           select: {
             subscribers: {
