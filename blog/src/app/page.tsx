@@ -3,7 +3,7 @@ import { Article } from "@/components/article/article.component";
 import { Navigation } from "@/components/navigation/navigation.component";
 
 const Home = async () => {
-  const { data, count } = await getArticles();
+  const { data, metadata } = await getArticles();
 
   return (
     <main className="grid-container mx-auto gap-10 pb-10">
@@ -15,7 +15,7 @@ const Home = async () => {
         ))}
       </div>
       <p className="mt-8 text-end font-mono text-sm text-gray-500">
-        {data.length}/{count}
+        {data.length}/{metadata.total}
       </p>
     </main>
   );
