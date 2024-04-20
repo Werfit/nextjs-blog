@@ -11,7 +11,10 @@ import {
   getSubscriptionCondition,
   getUserIdCondition,
 } from "./followers.helper";
-import { GetSearchUsersResponse } from "./followers.types";
+import {
+  GetSearchUsersResponse,
+  UserWithSubscribersCountResponse,
+} from "./followers.types";
 
 export const follow = async (data: FormData): Promise<void> => {
   const session = await auth();
@@ -99,7 +102,7 @@ export const getUsers = async (
 
     if (session) {
       const formattedUsers = users.map((user) =>
-        replaceCountWithIsFollowed(user),
+        replaceCountWithIsFollowed(user as UserWithSubscribersCountResponse),
       );
 
       return formattedUsers;

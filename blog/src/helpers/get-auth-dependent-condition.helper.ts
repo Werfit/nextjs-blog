@@ -6,7 +6,7 @@ import type { Session } from "next-auth";
 export const getAuthDependentCondition = <T>(
   isAuthenticatedResult: T,
   session: Session | null,
-): T => {
+): T | Record<string, never> => {
   if (!session) {
     return {};
   }
