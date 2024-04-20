@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 
+import { ANIMATION_CONFIG } from "@/constants/animation.constants";
 import { combineClassNames } from "@/utils/class-name.util";
 
 type SpinnerProps = {
@@ -16,6 +17,7 @@ const Spinner: React.FC<SpinnerProps> = ({ containerClassName, className }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      transition={ANIMATION_CONFIG}
     >
       <svg
         aria-hidden="true"

@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -15,7 +16,20 @@ const Article: React.FC<ArticleProps> = ({ article }) => {
   const router = useRouter();
 
   return (
-    <article
+    <motion.article
+      variants={{
+        hidden: {
+          opacity: 0,
+          y: -100,
+        },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: {
+            y: { stiffness: 100, velocity: 100 },
+          },
+        },
+      }}
       className="cursor-pointer overflow-clip rounded-md bg-white shadow-md shadow-black-700/10 transition hover:bg-gray-50"
       onClick={() => router.push(`/article/${article.id}`)}
     >
@@ -43,7 +57,7 @@ const Article: React.FC<ArticleProps> = ({ article }) => {
           </p>
         </div>
       </main>
-    </article>
+    </motion.article>
   );
 };
 

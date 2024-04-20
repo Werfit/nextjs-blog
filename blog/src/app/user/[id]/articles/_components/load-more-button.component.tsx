@@ -4,6 +4,7 @@ import { AnimatePresence, HTMLMotionProps, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 import { Spinner } from "@/components/spinner/spinner.component";
+import { ANIMATION_CONFIG } from "@/constants/animation.constants";
 
 type LoadMoreButtonProps = Omit<
   HTMLMotionProps<"button">,
@@ -39,6 +40,7 @@ const LoadMoreButton: React.FC<LoadMoreButtonProps> = ({
           initial={{ opacity: isFirstRender ? 1 : 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          transition={ANIMATION_CONFIG}
           {...params}
         >
           Load more
