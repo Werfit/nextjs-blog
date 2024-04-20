@@ -1,17 +1,28 @@
 "use server";
 
-import { User } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { notFound } from "next/navigation";
 
+import { UserResponse } from "@/actions/common.types";
 import prisma from "@/lib/database/database";
 import { logger } from "@/lib/logger/logger";
 import { comparePassword, hashPassword } from "@/lib/utils/password";
 
-import { auth } from "./helpers/auth";
+import { getSubscriptionCondition } from "../followers/followers.helper";
+import { UserWithCurrentUserSubscriber } from "../followers/followers.types";
+import { auth } from "../helpers/auth";
+import { replaceCountWithIsFollowed } from "../user.helper";
+import { UpdatePasswordRequest } from "./profile.types";
 
 export const getUserProfile = async (
   userId: string,
-): Promise<Omit<User, "password" | "createdAt"> | undefined> => {
+): Promise<UserResponse | UserWithCurrentUserSubscriber | null> => {
+  const session = await auth();
+
+  const subscriptionCondition: Prisma.UserSelect =
+    getSubscriptionCondition(session);
+
   try {
     const user = await prisma.user.findUnique({
       where: {
@@ -23,17 +34,24 @@ export const getUserProfile = async (
         firstName: true,
         lastName: true,
         imageUrl: true,
+        ...subscriptionCondition,
       },
     });
 
     if (!user) {
-      return;
+      notFound();
+    }
+
+    if (session) {
+      return replaceCountWithIsFollowed(user);
     }
 
     return user;
   } catch (err) {
     const error = err as Error;
     logger.error(error.message);
+
+    return null;
   }
 };
 
@@ -62,12 +80,6 @@ export const updateAvatar = async (imageUrl?: string): Promise<void> => {
     const error = err as Error;
     logger.error(error.message);
   }
-};
-
-type UpdatePasswordRequest = {
-  id: string;
-  oldPassword: string;
-  newPassword: string;
 };
 
 export const updatePassword = async ({

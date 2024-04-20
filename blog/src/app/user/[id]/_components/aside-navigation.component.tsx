@@ -1,12 +1,14 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
+import { Session } from "next-auth";
 
 import { Icon } from "@/components/icon/icon.component";
 import { combineClassNames } from "@/utils/class-name.util";
 
 type AsideNavigationProps = {
   className?: string;
+  user?: Session["user"];
   params: {
     id: string;
   };
@@ -21,6 +23,7 @@ enum ProfileSettingsPathnames {
 const AsideNavigation: React.FC<AsideNavigationProps> = ({
   className,
   params,
+  user,
 }) => {
   const pathname = usePathname();
   const router = useRouter();
@@ -45,22 +48,6 @@ const AsideNavigation: React.FC<AsideNavigationProps> = ({
         <li
           className={combineClassNames(
             "flex cursor-pointer items-center gap-2 px-4 py-1 tracking-wide transition hover:bg-lightGray-50",
-            pathname.endsWith(ProfileSettingsPathnames.PASSWORD)
-              ? "bg-slate-50"
-              : "",
-          )}
-          onClick={() =>
-            router.push(
-              `/user/${params.id}/${ProfileSettingsPathnames.PASSWORD}`,
-            )
-          }
-        >
-          <Icon name="lock" /> Password
-        </li>
-        <li className="block h-[0.1rem] rounded-md bg-lightGray-100"></li>
-        <li
-          className={combineClassNames(
-            "flex cursor-pointer items-center gap-2 px-4 py-1 tracking-wide transition hover:bg-lightGray-50",
             pathname.endsWith(ProfileSettingsPathnames.ARTICLES)
               ? "bg-slate-50"
               : "",
@@ -73,6 +60,26 @@ const AsideNavigation: React.FC<AsideNavigationProps> = ({
         >
           <Icon name="article" /> Articles
         </li>
+        {user && user.id === params.id && (
+          <>
+            <li className="block h-[0.1rem] rounded-md bg-lightGray-100"></li>
+            <li
+              className={combineClassNames(
+                "flex cursor-pointer items-center gap-2 px-4 py-1 tracking-wide transition hover:bg-lightGray-50",
+                pathname.endsWith(ProfileSettingsPathnames.PASSWORD)
+                  ? "bg-slate-50"
+                  : "",
+              )}
+              onClick={() =>
+                router.push(
+                  `/user/${params.id}/${ProfileSettingsPathnames.PASSWORD}`,
+                )
+              }
+            >
+              <Icon name="lock" /> Password
+            </li>
+          </>
+        )}
       </ul>
     </aside>
   );

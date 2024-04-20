@@ -7,23 +7,27 @@ import {
   deleteImage,
   uploadImage,
 } from "@/actions/articles/image-upload.action";
+import { useNotificationsContext } from "@/provider/notifications/notifications.hook";
 
-import { Spinner } from "../spinner/spinner.component";
+import { Spinner } from "../../../../components/spinner/spinner.component";
 import type { AvatarProps } from "./avatar.component";
 import { Avatar } from "./avatar.component";
 
 type AvatarUploaderProps = AvatarProps & {
-  onLoad: (url?: string) => Promise<void>;
+  onLoad?: (url?: string) => Promise<void>;
+  isDisabled?: boolean;
 };
 
 const AvatarUploader: React.FC<AvatarUploaderProps> = ({
   imageUrl,
   onLoad,
+  isDisabled,
   ...props
 }) => {
   const fileUploaderRef = useRef<HTMLInputElement>(null);
   const [avatarUrl, setAvatarUrl] = useState<string | undefined>(imageUrl);
   const [isLoading, setIsLoading] = useState(false);
+  const { actions } = useNotificationsContext();
 
   useEffect(() => {
     setAvatarUrl(imageUrl);
@@ -35,7 +39,7 @@ const AvatarUploader: React.FC<AvatarUploaderProps> = ({
 
     // no image was uploaded
     if (!image) {
-      console.log("no image");
+      actions.error("No image");
       return;
     }
 
@@ -53,11 +57,11 @@ const AvatarUploader: React.FC<AvatarUploaderProps> = ({
     setIsLoading(false);
     if (url) {
       setAvatarUrl(url);
-      onLoad(url);
+      onLoad?.(url);
     }
 
     if (message) {
-      console.log(message);
+      actions.error(message);
     }
 
     // on change is not always fired when the same file is being loaded twice in a row
@@ -72,20 +76,23 @@ const AvatarUploader: React.FC<AvatarUploaderProps> = ({
     try {
       await deleteImage(avatarUrl);
       setAvatarUrl(undefined);
-      onLoad(undefined);
+      onLoad?.(undefined);
     } catch (error) {
-      console.error(error);
+      actions.error("Failed to delete avatar");
     }
   };
 
   return (
     <div className="relative flex flex-col gap-4">
-      <input
-        type="file"
-        className="hidden"
-        ref={fileUploaderRef}
-        onChange={onFileUpload}
-      />
+      {!isDisabled && (
+        <input
+          type="file"
+          className="hidden"
+          ref={fileUploaderRef}
+          onChange={onFileUpload}
+        />
+      )}
+
       <AnimatePresence>
         {isLoading && (
           <Spinner
@@ -96,22 +103,24 @@ const AvatarUploader: React.FC<AvatarUploaderProps> = ({
       </AnimatePresence>
       <Avatar imageUrl={avatarUrl} {...props} />
 
-      <div className="flex flex-col gap-2">
-        <button
-          className="rounded-md border-2 border-indigo-500 px-3 py-2 text-sm text-indigo-500 transition hover:bg-indigo-500/10 disabled:border-indigo-300 disabled:bg-indigo-50 disabled:text-indigo-300"
-          onClick={() => fileUploaderRef.current?.click()}
-          disabled={isLoading}
-        >
-          Change avatar
-        </button>
-        <button
-          className="text-sm tracking-wide text-red-500 hover:text-red-400 disabled:text-red-300"
-          onClick={deleteAvatar}
-          disabled={isLoading}
-        >
-          Delete avatar
-        </button>
-      </div>
+      {!isDisabled && (
+        <div className="flex flex-col gap-2">
+          <button
+            className="rounded-md border-2 border-indigo-500 px-3 py-2 text-sm text-indigo-500 transition hover:bg-indigo-500/10 disabled:border-indigo-300 disabled:bg-indigo-50 disabled:text-indigo-300"
+            onClick={() => fileUploaderRef.current?.click()}
+            disabled={isLoading}
+          >
+            Change avatar
+          </button>
+          <button
+            className="text-sm tracking-wide text-red-500 hover:text-red-400 disabled:text-red-300"
+            onClick={deleteAvatar}
+            disabled={isLoading}
+          >
+            Delete avatar
+          </button>
+        </div>
+      )}
     </div>
   );
 };

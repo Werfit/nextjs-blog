@@ -5,7 +5,6 @@ import Link from "next/link";
 import Logo from "@/assets/images/logo.svg";
 import { combineClassNames } from "@/utils/class-name.util";
 
-import { FavoritesList } from "../favorites/favorites-list.component";
 import { ActionsIcon } from "./mobile/actions-icon";
 import { AuthenticatedActions } from "./navigation-actions/authenticated-actions.component";
 import { NavigationActions } from "./navigation-actions/navigation-actions.component";
@@ -37,7 +36,7 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => (
       </Link>
 
       <div className="hidden grid-cols-subgrid items-center md:col-span-5 md:grid lg:col-span-7">
-        <div className="text-black text-grayBlue-500 col-span-2 flex justify-center gap-4 font-medium tracking-wider md:col-span-2 lg:col-span-4">
+        <div className="text-black col-span-2 flex justify-center gap-4 font-medium tracking-wider text-grayBlue-500 md:col-span-2 lg:col-span-4">
           <Link href="/" className="transition hover:text-black-500">
             Home
           </Link>
@@ -48,9 +47,7 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => (
         <div className="hidden items-center justify-end gap-2 sm:flex md:col-span-3">
           <NavigationActions
             authenticatedChildren={
-              <AuthenticatedActions>
-                <FavoritesList />
-              </AuthenticatedActions>
+              <AuthenticatedActions></AuthenticatedActions>
             }
             publicChildren={<PublicActions />}
           />
@@ -58,10 +55,7 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => (
       </div>
 
       <div className="text-right md:hidden">
-        <ActionsIcon
-          favoritesList={<FavoritesList />}
-          className="cursor-pointer"
-        />
+        <ActionsIcon className="cursor-pointer" />
       </div>
     </div>
   </nav>

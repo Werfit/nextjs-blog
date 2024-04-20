@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { getUserArticles } from "@/actions/articles/articles.action";
 import { Article } from "@/components/article/article.component";
 import { Spinner } from "@/components/spinner/spinner.component";
+import { useNotificationsContext } from "@/provider/notifications/notifications.hook";
 
 import { LoadMoreButton } from "./_components/load-more-button.component";
 
@@ -14,8 +15,6 @@ type ArticleProps = {
     id: string;
   };
 };
-
-let firstRerender = true;
 
 const Articles: React.FC<ArticleProps> = ({ params }) => {
   const [articles, setArticles] = useState<
@@ -29,6 +28,7 @@ const Articles: React.FC<ArticleProps> = ({ params }) => {
     },
   });
   const [isLoading, setIsLoading] = useState(true);
+  const { actions } = useNotificationsContext();
 
   const isLoadMoreButtonVisible =
     articles.data.length > 0 &&
@@ -55,17 +55,14 @@ const Articles: React.FC<ArticleProps> = ({ params }) => {
       }));
     } catch (err) {
       const error = err as Error;
-      console.log(error);
+      actions.error(error.message);
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    if (firstRerender) {
-      firstRerender = false;
-      return;
-    }
+    // runs twice in dev mode
     getArticles();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.id]);

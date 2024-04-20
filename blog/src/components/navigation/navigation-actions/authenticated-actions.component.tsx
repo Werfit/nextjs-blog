@@ -10,12 +10,10 @@ import { ProfileIconButton } from "../profile-button/icon.component";
 
 type AuthenticatedActionsProps = {
   className?: string;
-  children: React.ReactNode;
 };
 
 const AuthenticatedActions: React.FC<AuthenticatedActionsProps> = ({
   className,
-  children,
 }) => {
   const session = useSession();
 
@@ -33,7 +31,7 @@ const AuthenticatedActions: React.FC<AuthenticatedActionsProps> = ({
       </Link>
 
       <Search from="0px" to="150px" />
-      <FavoritesIcon>{children}</FavoritesIcon>
+      <FavoritesIcon />
       <ProfileIconButton className={className} user={session.data.user} />
     </div>
   );

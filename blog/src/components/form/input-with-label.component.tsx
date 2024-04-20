@@ -1,7 +1,7 @@
 import { forwardRef, InputHTMLAttributes } from "react";
 
 type InputWithLabelProps = InputHTMLAttributes<HTMLInputElement> & {
-  isError: boolean;
+  isError?: boolean;
   errorMessage?: string;
 };
 

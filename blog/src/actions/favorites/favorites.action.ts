@@ -1,17 +1,19 @@
 "use server";
 
-import { Article, User } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 import prisma from "@/lib/database/database";
 import { logger } from "@/lib/logger/logger";
 
 import { auth } from "../user/helpers/auth";
-import { createFavorite, isInFavorite, removeFavorite } from "./utils";
+import {
+  createFavorite,
+  isInFavorite,
+  removeFavorite,
+} from "./favorites.helper";
+import { FavoriteWithOwner } from "./favorites.types";
 
-export const getFavorites = async (): Promise<{
-  data: (Article & { owner: Pick<User, "id" | "username"> })[];
-}> => {
+export const getFavorites = async (): Promise<FavoriteWithOwner[]> => {
   const session = await auth();
 
   if (!session) {
@@ -37,11 +39,11 @@ export const getFavorites = async (): Promise<{
       },
     });
 
-    return { data: favorites.map((favorite) => favorite.article) };
+    return favorites.map((favorite) => favorite.article);
   } catch (err) {
     const error = err as Error;
     logger.error(error.message, error);
-    return { data: [] };
+    return [];
   }
 };
 

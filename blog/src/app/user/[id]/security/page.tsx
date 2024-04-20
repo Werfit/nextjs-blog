@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { updatePassword } from "@/actions/user/profile.action";
+import { updatePassword } from "@/actions/user/profile/profile.action";
 import { FormSubmitButton } from "@/components/form/form-submit-button/form-submit-button.component";
 import { useFormSubmitButtonState } from "@/components/form/form-submit-button/use-form-submit-button-state.hook";
 import { InputWithLabel } from "@/components/form/input-with-label.component";

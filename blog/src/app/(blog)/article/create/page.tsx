@@ -5,9 +5,10 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { createArticle } from "@/actions/articles/articles.action";
-import { FeaturedImageUploader } from "@/components/editor/components/featured-image/uploader.component";
-import { Editor } from "@/components/editor/editor.component";
+import { FeaturedImageUploader } from "@/app/(blog)/article/create/_components/components/featured-image/uploader.component";
+import { Editor } from "@/app/(blog)/article/create/_components/editor.component";
 import { sanitizeHtml } from "@/lib/sanitizer/sanitize-html";
+import { useNotificationsContext } from "@/provider/notifications/notifications.hook";
 import {
   CreateArticleSchema,
   createArticleSchema,
@@ -20,6 +21,7 @@ const CreateArticle = () => {
     });
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const { actions } = useNotificationsContext();
 
   watch();
   const handleArticleCreation: SubmitHandler<CreateArticleSchema> = async (
@@ -40,7 +42,7 @@ const CreateArticle = () => {
     } catch (err) {
       setIsLoading(false);
       const error = err as Error;
-      console.log(error.message);
+      actions.error(error.message);
     }
   };
 

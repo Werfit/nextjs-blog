@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 
+import { FavoritesList } from "@/components/favorites/favorites-list.component";
 import { ANIMATION_CONFIG } from "@/constants/animation.constants";
 import { useAnimationOnInitAndCleanup } from "@/hooks/use-animation-on-init-cleanup.hook";
 
@@ -10,14 +11,10 @@ import { AuthenticatedActions } from "./authenticated-actions.component";
 import { PublicActions } from "./public-actions.component";
 
 type OverlayActionsProps = {
-  favoritesList: React.ReactNode;
   onClose: () => void;
 };
 
-const OverlayActions: React.FC<OverlayActionsProps> = ({
-  onClose,
-  favoritesList,
-}) => {
+const OverlayActions: React.FC<OverlayActionsProps> = ({ onClose }) => {
   const { scope } = useAnimationOnInitAndCleanup<HTMLDivElement>({
     onEnter: async (scope, animate) => {
       await animate(scope.current, { opacity: 1, right: 0 }, ANIMATION_CONFIG);
@@ -46,7 +43,7 @@ const OverlayActions: React.FC<OverlayActionsProps> = ({
           <NavigationActions
             authenticatedChildren={
               <AuthenticatedActions onClose={onClose}>
-                {favoritesList}
+                <FavoritesList />
               </AuthenticatedActions>
             }
             publicChildren={<PublicActions />}

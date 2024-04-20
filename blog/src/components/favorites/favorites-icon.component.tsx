@@ -7,11 +7,7 @@ import { Portal } from "@/components/portal/portal.component";
 
 import { Favorites } from "./favorites.component";
 
-type FavoriteIconProps = {
-  children?: React.ReactNode;
-};
-
-const FavoritesIcon: React.FC<FavoriteIconProps> = ({ children }) => {
+const FavoritesIcon = () => {
   const [showFavorites, setShowFavorites] = useState(false);
 
   return (
@@ -28,9 +24,7 @@ const FavoritesIcon: React.FC<FavoriteIconProps> = ({ children }) => {
       <Portal targetId="overlays">
         <AnimatePresence>
           {showFavorites && (
-            <Favorites onClose={() => setShowFavorites(false)}>
-              {children}
-            </Favorites>
+            <Favorites onClose={() => setShowFavorites(false)} />
           )}
         </AnimatePresence>
       </Portal>

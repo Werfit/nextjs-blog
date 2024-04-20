@@ -1,6 +1,6 @@
-import { getUsers } from "@/actions/user/followers.action";
-import { User } from "@/components/user/user.component";
+import { getUsers } from "@/actions/user/followers/followers.action";
 
+import { UsersList } from "./_components/users-list.component";
 import { SearchParamsInput } from "./search-params-input";
 
 type UserSearchPageProps = {
@@ -12,17 +12,15 @@ type UserSearchPageProps = {
 const UserSearchPage: React.FC<UserSearchPageProps> = async ({
   searchParams,
 }) => {
-  const users = await getUsers(searchParams.username);
+  const users = searchParams.username
+    ? await getUsers(searchParams.username)
+    : [];
 
   return (
     <div className="flex flex-col gap-10">
       <SearchParamsInput defaultValue={searchParams.username ?? ""} />
 
-      <div className="flex flex-col gap-2">
-        {users.map((user) => (
-          <User key={user.id} user={user} />
-        ))}
-      </div>
+      <UsersList users={users} />
     </div>
   );
 };

@@ -1,12 +1,17 @@
 "use server";
 
-import { User } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 import prisma from "@/lib/database/database";
 import { logger } from "@/lib/logger/logger";
 
-import { auth } from "./helpers/auth";
+import { auth } from "../helpers/auth";
+import { replaceCountWithIsFollowed } from "../user.helper";
+import {
+  getSubscriptionCondition,
+  getUserIdCondition,
+} from "./followers.helper";
+import { GetSearchUsersResponse } from "./followers.types";
 
 export const follow = async (data: FormData): Promise<void> => {
   const session = await auth();
@@ -65,27 +70,18 @@ export const unFollow = async (data: FormData): Promise<void> => {
   }
 };
 
-export type UserWithFollowingStatus = Omit<User, "password" | "createdAt"> & {
-  _count: {
-    subscribers: number;
-  };
-};
-
 export const getUsers = async (
-  username?: string,
-): Promise<UserWithFollowingStatus[]> => {
+  username: string,
+): Promise<GetSearchUsersResponse> => {
   const session = await auth();
 
-  if (!session) {
-    throw new Error("Not authenticated");
-  }
+  const userIdCondition = getUserIdCondition(session);
+  const subscriptionCondition = getSubscriptionCondition(session);
 
   try {
     const users = await prisma.user.findMany({
       where: {
-        id: {
-          not: session.user.id,
-        },
+        ...userIdCondition,
         username: {
           contains: username,
           mode: "insensitive",
@@ -97,17 +93,17 @@ export const getUsers = async (
         firstName: true,
         lastName: true,
         imageUrl: true,
-        _count: {
-          select: {
-            subscribers: {
-              where: {
-                followingId: session.user.id,
-              },
-            },
-          },
-        },
+        ...subscriptionCondition,
       },
     });
+
+    if (session) {
+      const formattedUsers = users.map((user) =>
+        replaceCountWithIsFollowed(user),
+      );
+
+      return formattedUsers;
+    }
 
     return users;
   } catch (err) {

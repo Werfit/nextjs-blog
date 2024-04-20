@@ -3,7 +3,7 @@
 import { AnimatePresence } from "framer-motion";
 import { MouseEvent, useState } from "react";
 
-import { Icon } from "../../../icon/icon.component";
+import { Icon } from "../../../../../../../components/icon/icon.component";
 import { DropdownAction } from "../../common";
 import { ActionsList } from "./actions-list.component";
 

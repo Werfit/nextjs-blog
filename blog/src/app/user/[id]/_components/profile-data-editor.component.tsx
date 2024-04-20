@@ -1,12 +1,12 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { User } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 
-import { updateAvatar } from "@/actions/user/profile.action";
-import { AvatarUploader } from "@/components/avatar/avatar-uploader.component";
+import { UserResponse } from "@/actions/common.types";
+import { updateAvatar } from "@/actions/user/profile/profile.action";
+import { AvatarUploader } from "@/app/user/[id]/_components/avatar-uploader.component";
 import { FormSubmitButton } from "@/components/form/form-submit-button/form-submit-button.component";
 import { InputWithLabel } from "@/components/form/input-with-label.component";
 import {
@@ -17,7 +17,7 @@ import { combineClassNames } from "@/utils/class-name.util";
 
 type ProfileDataEditorProps = {
   className?: string;
-  user: Omit<User, "password" | "createdAt">;
+  user: UserResponse;
 };
 
 const ProfileDataEditor: React.FC<ProfileDataEditorProps> = ({

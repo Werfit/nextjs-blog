@@ -5,12 +5,13 @@ import { Icon } from "@/components/icon/icon.component";
 import { ANIMATION_CONFIG } from "@/constants/animation.constants";
 import { useAnimationOnInitAndCleanup } from "@/hooks/use-animation-on-init-cleanup.hook";
 
+import { FavoritesList } from "./favorites-list.component";
+
 type FavoritesProps = {
-  children?: React.ReactNode;
   onClose: () => void;
 };
 
-const Favorites: React.FC<FavoritesProps> = ({ children, onClose }) => {
+const Favorites: React.FC<FavoritesProps> = ({ onClose }) => {
   const { scope } = useAnimationOnInitAndCleanup<HTMLDivElement>({
     onEnter: async (scope, animate) => {
       await Promise.all([
@@ -45,7 +46,7 @@ const Favorites: React.FC<FavoritesProps> = ({ children, onClose }) => {
           </button>
         </header>
 
-        {children}
+        <FavoritesList />
       </motion.div>
     </motion.aside>
   );

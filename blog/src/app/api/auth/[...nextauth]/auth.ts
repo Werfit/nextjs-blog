@@ -25,7 +25,8 @@ export const loginUser = async (
   }
 
   const { password: _, ...foundUser } = user;
-  revalidatePath("/");
+  revalidatePath("/", "layout");
+  revalidatePath("/user", "page");
   return foundUser;
 };
 
