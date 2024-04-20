@@ -50,7 +50,7 @@ const FeaturedImageDisplay: React.FC<FeaturedImageDisplayProps> = ({
           className="h-full w-full object-cover text-center"
           src={featuredImageSrc}
           key={LoadingStatus.LOADED}
-          initial={{ opacity: 0 }}
+          initial={{ x: 0, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
         ></motion.img>
       )}
