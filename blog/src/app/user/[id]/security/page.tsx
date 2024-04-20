@@ -55,10 +55,7 @@ const SecurityPage: React.FC<SecurityPageProps> = ({ params }) => {
   };
 
   return (
-    <form
-      className="col-span-3 flex flex-col gap-2"
-      onSubmit={handleSubmit(onSubmit)}
-    >
+    <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
       <InputWithLabel
         type="password"
         placeholder="Current password"

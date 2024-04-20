@@ -68,7 +68,7 @@ const Articles: React.FC<ArticleProps> = ({ params }) => {
   }, [params.id]);
 
   return (
-    <div className="col-span-3 flex w-full flex-col gap-6">
+    <div className="flex w-full flex-col gap-6">
       <AnimatePresence>
         {articles.data.length > 0 && (
           <motion.div

@@ -20,10 +20,9 @@ const Profile: React.FC<ProfileProps> = async ({ params }) => {
   }
 
   return session?.user.id === params.id ? (
-    <ProfileDataEditor className="col-span-3" user={user} />
+    <ProfileDataEditor user={user} />
   ) : (
     <ProfileDataViewer
-      className="col-span-3"
       user={session?.user}
       profile={user as UserWithCurrentUserSubscriber}
     />

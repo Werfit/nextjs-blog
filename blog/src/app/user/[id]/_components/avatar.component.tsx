@@ -63,7 +63,7 @@ const Avatar: React.FC<AvatarProps> = ({
       alt="Avatar"
       width={100}
       height={100}
-      className={className}
+      className={combineClassNames(className, "object-cover")}
       priority
     />
   ) : (

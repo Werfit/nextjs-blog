@@ -22,14 +22,14 @@ const ProfileLayout: React.FC<ProfileLayoutProps> = async ({
     <main className="grid-container gap-10 pb-10">
       <Navigation className="container mx-auto" />
 
-      <div className="grid grid-cols-4 gap-6">
+      <div className="!col-start-[full-screen] col-end-[full-screen] grid gap-6 px-4 md:!col-start-[container-start] md:!col-end-[container-end] md:grid-cols-6">
         <AsideNavigation
-          className="col-span-1"
+          className="md:col-span-2"
           params={params}
           user={data?.user}
         />
 
-        {children}
+        <div className="md:col-span-4">{children}</div>
       </div>
     </main>
   );

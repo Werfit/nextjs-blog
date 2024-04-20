@@ -34,10 +34,10 @@ const AsideNavigation: React.FC<AsideNavigationProps> = ({
 
   return (
     <aside className={className}>
-      <ul className="rounded-md border bg-white">
+      <ul className="flex w-full rounded-md border bg-white md:block md:w-auto">
         <li
           className={combineClassNames(
-            "flex cursor-pointer items-center gap-2 px-4 py-1 tracking-wide transition hover:bg-lightGray-50",
+            "flex flex-1 cursor-pointer items-center justify-center gap-2 px-4 py-1 tracking-wide transition hover:bg-lightGray-50 md:justify-start",
             isProfilePage ? "bg-slate-50" : "",
           )}
           onClick={() => router.push(`/user/${params.id}`)}
@@ -47,7 +47,7 @@ const AsideNavigation: React.FC<AsideNavigationProps> = ({
         <li className="block h-[0.1rem] rounded-md bg-lightGray-100"></li>
         <li
           className={combineClassNames(
-            "flex cursor-pointer items-center gap-2 px-4 py-1 tracking-wide transition hover:bg-lightGray-50",
+            "flex flex-1 cursor-pointer items-center justify-center gap-2 px-4 py-1 tracking-wide transition hover:bg-lightGray-50 md:justify-start",
             pathname.endsWith(ProfileSettingsPathnames.ARTICLES)
               ? "bg-slate-50"
               : "",
@@ -65,7 +65,7 @@ const AsideNavigation: React.FC<AsideNavigationProps> = ({
             <li className="block h-[0.1rem] rounded-md bg-lightGray-100"></li>
             <li
               className={combineClassNames(
-                "flex cursor-pointer items-center gap-2 px-4 py-1 tracking-wide transition hover:bg-lightGray-50",
+                "flex flex-1 cursor-pointer items-center justify-center gap-2 px-4 py-1 tracking-wide transition hover:bg-lightGray-50 md:justify-start",
                 pathname.endsWith(ProfileSettingsPathnames.PASSWORD)
                   ? "bg-slate-50"
                   : "",

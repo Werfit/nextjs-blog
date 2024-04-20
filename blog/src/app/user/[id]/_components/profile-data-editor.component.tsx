@@ -39,13 +39,18 @@ const ProfileDataEditor: React.FC<ProfileDataEditorProps> = ({
   });
 
   return (
-    <div className={combineClassNames(className, "flex gap-10")}>
+    <div
+      className={combineClassNames(
+        className,
+        "flex flex-col gap-10 md:flex-row",
+      )}
+    >
       <AvatarUploader
         username={user.username}
         firstName={user.firstName ?? ""}
         lastName={user.lastName ?? ""}
         imageUrl={user.imageUrl ?? ""}
-        className="h-40 w-40 rounded-3xl"
+        className="h-40 w-full rounded-3xl md:w-40"
         onLoad={async (url) => {
           try {
             await updateAvatar(url);

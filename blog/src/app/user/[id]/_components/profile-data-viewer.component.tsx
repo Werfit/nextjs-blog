@@ -44,13 +44,18 @@ const ProfileDataViewer: React.FC<ProfileDataViewerProps> = ({
   };
 
   return (
-    <div className={combineClassNames(className, "flex gap-10")}>
+    <div
+      className={combineClassNames(
+        className,
+        "flex flex-col gap-10 md:flex-row",
+      )}
+    >
       <AvatarUploader
         username={profile.username}
         firstName={profile.firstName ?? ""}
         lastName={profile.lastName ?? ""}
         imageUrl={profile.imageUrl ?? ""}
-        className="h-40 w-40 rounded-3xl"
+        className="h-40 w-auto rounded-3xl md:w-40"
         isDisabled
       />
 
