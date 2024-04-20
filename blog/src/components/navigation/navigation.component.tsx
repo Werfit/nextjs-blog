@@ -46,9 +46,7 @@ const Navigation: React.FC<NavigationProps> = ({ className }) => (
         </div>
         <div className="hidden items-center justify-end gap-2 sm:flex md:col-span-3">
           <NavigationActions
-            authenticatedChildren={
-              <AuthenticatedActions></AuthenticatedActions>
-            }
+            authenticatedChildren={<AuthenticatedActions />}
             publicChildren={<PublicActions />}
           />
         </div>

@@ -1,7 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
 
-import { FavoritesList } from "@/components/favorites/favorites-list.component";
 import { ANIMATION_CONFIG } from "@/constants/animation.constants";
 import { useAnimationOnInitAndCleanup } from "@/hooks/use-animation-on-init-cleanup.hook";
 
@@ -41,11 +40,7 @@ const OverlayActions: React.FC<OverlayActionsProps> = ({ onClose }) => {
 
         <main className="flex h-full flex-col items-center justify-center gap-4">
           <NavigationActions
-            authenticatedChildren={
-              <AuthenticatedActions onClose={onClose}>
-                <FavoritesList />
-              </AuthenticatedActions>
-            }
+            authenticatedChildren={<AuthenticatedActions onClose={onClose} />}
             publicChildren={<PublicActions />}
           />
         </main>
