@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-import { ArticleWithOwner } from "@/actions/articles/articles.action";
+import { ArticleWithOwner } from "@/actions/articles/articles.types";
 
 type ArticleProps = {
   article: ArticleWithOwner;
