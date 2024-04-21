@@ -37,5 +37,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 # TODO
 
-- [ ] Save first name and last name
-- [ ] Pagination on the home page
+- [x] Save first name and last name
+- [x] Pagination on the home page

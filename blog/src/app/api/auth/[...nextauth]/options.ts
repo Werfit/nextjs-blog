@@ -14,7 +14,7 @@ export const authOptions: AuthOptions = {
       // user that comes from the authorization is of custom type User rather User | AdapterUser from the next-auth
       const authorizedUser: User = user as User;
       if (trigger === "update" && token.user) {
-        (token.user as User).imageUrl = session.imageUrl;
+        token.user = { ...token.user, ...session };
       }
 
       if (user) {

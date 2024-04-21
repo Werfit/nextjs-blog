@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "prisma generate && next build",
     "start": "next start",
-    "lint": "next lint && prisma format && eslint . --fix"
+    "lint": "next lint && prisma format && eslint . --fix",
+    "db:push:dev": "dotenv -e .env.development.local prisma db push",
+    "db:push:prod": "dotenv -e .env.production.local prisma db push"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "3.554.0",

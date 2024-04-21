@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 import { Spinner } from "@/components/spinner/spinner.component";
 import { ANIMATION_CONFIG } from "@/constants/animation.constants";
+import { combineClassNames } from "@/utils/class-name.util";
 
 type LoadMoreButtonProps = Omit<
   HTMLMotionProps<"button">,
@@ -15,6 +16,7 @@ type LoadMoreButtonProps = Omit<
 
 const LoadMoreButton: React.FC<LoadMoreButtonProps> = ({
   isLoading,
+  className,
   ...params
 }) => {
   const [isFirstRender, setIsFirstRender] = useState(true);
@@ -34,7 +36,10 @@ const LoadMoreButton: React.FC<LoadMoreButtonProps> = ({
         />
       ) : (
         <motion.button
-          className="hover:bg-lightGray-400 text-grayBlue-500 rounded-md bg-lightGray-200 py-2 text-sm font-medium tracking-wider transition"
+          className={combineClassNames(
+            "rounded-md bg-lightGray-200 py-2 text-sm font-medium tracking-wider text-grayBlue-500 transition hover:bg-lightGray-400",
+            className,
+          )}
           disabled={isLoading}
           aria-disabled={isLoading}
           initial={{ opacity: isFirstRender ? 1 : 0 }}

@@ -9,20 +9,13 @@ import { sanitizeHtml } from "@/lib/sanitizer/sanitize-html";
 import { createArticleSchema } from "@/schemas/article.schema";
 
 import { auth } from "../user/helpers/auth";
-
-type PaginationResponse = {
-  metadata: { total: number; page: number; limit: number };
-};
-
-export type ArticleWithOwner = Article & {
-  owner: Pick<User, "id" | "username">;
-};
+import { GetArticlesResponse } from "./articles.types";
 
 export const getUserArticles = async (
   id: string,
   limit = 5,
   page = 0,
-): Promise<{ data: ArticleWithOwner[] } & PaginationResponse> => {
+): Promise<GetArticlesResponse> => {
   try {
     const data = await prisma.article.findMany({
       skip: page * limit,
@@ -59,11 +52,7 @@ export const getUserArticles = async (
 export const getArticles = async (
   limit = 5,
   page = 0,
-): Promise<
-  {
-    data: ArticleWithOwner[];
-  } & PaginationResponse
-> => {
+): Promise<GetArticlesResponse> => {
   const session = await auth();
 
   const followingUsersCondition:
@@ -97,7 +86,7 @@ export const getArticles = async (
         },
       },
       orderBy: {
-        createdAt: "asc",
+        createdAt: "desc",
       },
     });
 

@@ -5,7 +5,7 @@ import { useOptimistic } from "react";
 
 import { follow, unFollow } from "@/actions/user/followers/followers.action";
 import { UserWithCurrentUserSubscriber } from "@/actions/user/followers/followers.types";
-import { AvatarUploader } from "@/app/user/[id]/_components/avatar-uploader.component";
+import { AvatarUploader } from "@/app/user/[id]/_components/avatar/avatar-uploader.component";
 import { InputWithLabel } from "@/components/form/input-with-label.component";
 import { useNotificationsContext } from "@/provider/notifications/notifications.hook";
 import { combineClassNames } from "@/utils/class-name.util";

@@ -9,7 +9,7 @@ import {
 } from "@/actions/articles/image-upload.action";
 import { useNotificationsContext } from "@/provider/notifications/notifications.hook";
 
-import { Spinner } from "../../../../components/spinner/spinner.component";
+import { Spinner } from "../../../../../components/spinner/spinner.component";
 import type { AvatarProps } from "./avatar.component";
 import { Avatar } from "./avatar.component";
 
@@ -97,7 +97,7 @@ const AvatarUploader: React.FC<AvatarUploaderProps> = ({
         {isLoading && (
           <Spinner
             className="flex h-8 w-8 fill-primary-500 text-lightGray-200"
-            containerClassName="absolute flex items-center justify-center w-40 h-40 rounded-3xl bg-black-700/30"
+            containerClassName="absolute flex items-center justify-center w-full h-40 rounded-3xl bg-black-700/30"
           />
         )}
       </AnimatePresence>

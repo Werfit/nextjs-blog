@@ -2,7 +2,7 @@ import { UserWithCurrentUserSubscriber } from "@/actions/user/followers/follower
 import { auth } from "@/actions/user/helpers/auth";
 import { getUserProfile } from "@/actions/user/profile/profile.action";
 
-import { ProfileDataEditor } from "./_components/profile-data-editor.component";
+import { ProfileDataEditor } from "./_components/profile-data-editor/profile-data-editor.component";
 import { ProfileDataViewer } from "./_components/profile-data-viewer.component";
 
 type ProfileProps = {
