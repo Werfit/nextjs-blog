@@ -52,7 +52,7 @@ export const getUserProfile = async (
     const error = err as Error;
     logger.error(error.message);
 
-    return null;
+    notFound();
   }
 };
 

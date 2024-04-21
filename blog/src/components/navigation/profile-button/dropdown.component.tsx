@@ -21,7 +21,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ onClose }) => {
       await animate(scope.current, { opacity: 0 }, ANIMATION_CONFIG);
     },
   });
-  const { data } = useSession();
+  const { data, status } = useSession();
 
   const [positionClassNames, setPositionClassNames] = useState(
     "left-1/2 -translate-x-1/2",
@@ -41,40 +41,42 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ onClose }) => {
   }, [scope]);
 
   return (
-    <>
-      {/* Clickable area for hiding dropdown if anything else was clicked */}
-      <div
-        className="fixed left-0 top-0 h-screen w-screen"
-        onClick={onClose}
-      ></div>
+    status === "authenticated" && (
+      <>
+        {/* Clickable area for hiding dropdown if anything else was clicked */}
+        <div
+          className="fixed left-0 top-0 h-screen w-screen"
+          onClick={onClose}
+        ></div>
 
-      <motion.div
-        className={combineClassNames(
-          "dropdown absolute top-full flex min-w-32 translate-y-2 flex-col overflow-hidden rounded-md bg-white text-center tracking-wider shadow-md",
-          positionClassNames,
-        )}
-        ref={scope}
-        initial={{ opacity: 0 }}
-      >
-        <Link
-          href={`/user/${data?.user.id}`}
-          className="block px-4 py-2 transition hover:bg-lightGray-50"
+        <motion.div
+          className={combineClassNames(
+            "dropdown absolute top-full flex min-w-32 translate-y-2 flex-col overflow-hidden rounded-md bg-white text-center tracking-wider shadow-md",
+            positionClassNames,
+          )}
+          ref={scope}
+          initial={{ opacity: 0 }}
         >
-          Profile
-        </Link>
-        <button
-          className="w-full px-4 py-2 transition hover:bg-lightGray-50"
-          onClick={() =>
-            signOut({
-              // TODO: maybe will be needed in future
-              // redirect: false,
-            })
-          }
-        >
-          Logout
-        </button>
-      </motion.div>
-    </>
+          <Link
+            href={`/user/${data.user.id}`}
+            className="block px-4 py-2 transition hover:bg-lightGray-50"
+          >
+            Profile
+          </Link>
+          <button
+            className="w-full px-4 py-2 transition hover:bg-lightGray-50"
+            onClick={() =>
+              signOut({
+                // TODO: maybe will be needed in future
+                // redirect: false,
+              })
+            }
+          >
+            Logout
+          </button>
+        </motion.div>
+      </>
+    )
   );
 };
 

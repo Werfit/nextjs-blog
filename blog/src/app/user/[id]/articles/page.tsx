@@ -34,6 +34,7 @@ const Articles: React.FC<ArticleProps> = ({ params }) => {
     if (error) {
       actions.error(error);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
